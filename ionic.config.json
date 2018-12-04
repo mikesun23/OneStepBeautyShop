@@ -1,5 +1,7 @@
 {
   "name": "OneStepBeautyShop",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
