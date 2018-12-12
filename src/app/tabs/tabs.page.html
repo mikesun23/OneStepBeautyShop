@@ -10,6 +10,10 @@
     <ion-router-outlet name="contact"></ion-router-outlet>
   </ion-tab>
 
+  <ion-tab tab="posting">
+    <ion-router-outlet name="post"></ion-router-outlet>
+  </ion-tab>
+
   <ion-tab-bar slot="bottom">
 
     <ion-tab-button tab="home" href="/tabs/(home:home)">
@@ -25,6 +29,11 @@
     <ion-tab-button tab="contact" href="/tabs/(contact:contact)">
       <ion-icon name="contacts"></ion-icon>
       <ion-label>Contact</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="posting" href="/tabs/(post:posting)">
+      <!-- TODO: find a icon for posting -->
+      <ion-label>Post</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>
