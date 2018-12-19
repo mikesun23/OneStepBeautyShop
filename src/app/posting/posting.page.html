@@ -4,23 +4,20 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content fullscreen>
 
+  <ion-radio-group (ionChange)="itemTypeSelected($event.target.value)">
+    <ion-list-header>
+      <ion-label>What item you want to sell?</ion-label>
+    </ion-list-header>
 
-  <ion-item>
-    <ion-select placeholder="Item Type" [(ngModel)]="selectedType" (ionChange)="itemTypeSelected()">
-      <ion-select-option [value]="item" *ngFor="let item of itemTypes">{{item}}</ion-select-option>
-    </ion-select>
-  </ion-item>
+    <ion-item *ngFor="let type of itemTypes">
+      <ion-label>{{type}}</ion-label>
+      <ion-radio [value]="type" slot="start"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
 
-  <!-- <div *ngIf="formReady">
+  <!-- <ion-button href="/tabs/posting/makeup" (click)="nextStep()">Next Step</ion-button> -->
 
-    <div *ngIf="selectedType=='makeup'">
-    </div>
-  </div> -->
-    
-  <app-makeup-form></app-makeup-form>
-
-
-
+  
 </ion-content>

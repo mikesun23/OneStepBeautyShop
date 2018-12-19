@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ItemType } from './models/postingModel/common/ItemType';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-posting',
@@ -15,14 +16,19 @@ export class PostingPage implements OnInit {
 
   formReady: boolean = false;
 
-  constructor() { }
+  constructor(public navController: NavController) { }
 
 
   ngOnInit() {
   }
 
-  itemTypeSelected() {
+  itemTypeSelected(value: string) {
+    console.log(value)
     this.formReady = this.selectedType != '' ? true : false;
+  }
+
+  nextStep() {
+    console.log('next fucking step is not fucking rendering!!');
   }
 }
 

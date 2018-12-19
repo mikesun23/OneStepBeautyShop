@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PostingPageModule } from './../posting/posting.module'
 
 @Component({
   selector: 'app-tabs',
