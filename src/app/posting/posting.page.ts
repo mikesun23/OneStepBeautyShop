@@ -22,6 +22,8 @@ export class PostingPage implements OnInit {
   ngOnInit() {
   }
 
+
+
   itemTypeSelected(value: string) {
     console.log(value)
     this.formReady = this.selectedType != '' ? true : false;
@@ -31,14 +33,3 @@ export class PostingPage implements OnInit {
     console.log('next fucking step is not fucking rendering!!');
   }
 }
-
-
-/**
- *
- *
- * goal: dynamic form,
- * we need to componentize the form, modulize all parts of the form, then loop through the formGroup,
- * then render the
- *
- *
- */

@@ -1,11 +1,11 @@
-import { PostingPageModule } from './../posting/posting.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { TabsPage } from './tabs.page';
 import { HomePage } from '../home/home.page';
-import { AboutPage } from '../about/about.page';
-import { ContactPage } from '../contact/contact.page';
+import { PostingPage } from '../posting/posting.page';
+
+import { MakeupFormComponent } from './../posting/itemForms/makeup-form/makeup-form.component';
 
 const routes: Routes = [
   {
@@ -18,24 +18,20 @@ const routes: Routes = [
         component: HomePage
       },
       {
-        path: 'about',
-        outlet: 'about',
-        component: AboutPage
-      },
-      {
-        path: 'contact',
-        outlet: 'contact',
-        component: ContactPage
-      },
-      {
         path: 'posting',
-        loadChildren: './../posting/posting.module#PostingPageModule'
+        outlet: 'postingOutlet',
+        component: PostingPage
+      },
+      {
+        path: 'posting/makeupForm',
+        outlet: 'postingOutlet',
+        component: MakeupFormComponent
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/(home:home)',
+    redirectTo: '/tabs',
     pathMatch: 'full'
   }
 ];

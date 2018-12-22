@@ -4,11 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PostingPage } from './posting.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: PostingPage,
-    outlet: 'postingOutlet'
-  }
+  { path: '', component: PostingPage }
 ];
 
 @NgModule({

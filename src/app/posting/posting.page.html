@@ -5,19 +5,19 @@
 </ion-header>
 
 <ion-content fullscreen>
-
+  
   <ion-radio-group (ionChange)="itemTypeSelected($event.target.value)">
     <ion-list-header>
       <ion-label>What item you want to sell?</ion-label>
     </ion-list-header>
-
+    
     <ion-item *ngFor="let type of itemTypes">
       <ion-label>{{type}}</ion-label>
       <ion-radio [value]="type" slot="start"></ion-radio>
     </ion-item>
   </ion-radio-group>
-
-  <!-- <ion-button href="/tabs/posting/makeup" (click)="nextStep()">Next Step</ion-button> -->
-
+  
+  
+  <ion-button href="/tabs/(postingOutlet:posting/makeupForm)" (click)="nextStep()">Next Step</ion-button>
   
 </ion-content>

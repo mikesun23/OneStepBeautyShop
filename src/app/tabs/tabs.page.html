@@ -15,13 +15,19 @@
       <ion-label>Home</ion-label>
     </ion-tab-button>
 
-    <!-- tab-button matches tab above, to highlight the button to show which route is activated -->
-    <!-- /tabs/(routes:pathName) -->
-    <ion-tab-button tab="postingTab" href="/tabs/posting">
-      <!-- TODO: find a icon for posting -->
+
+    <ion-tab-button tab="postingTab" href="/tabs/(postingOutlet:posting)">
       <ion-label>Post</ion-label>
     </ion-tab-button>
 
   </ion-tab-bar>
 
 </ion-tabs>
+<!-- 
+<p>what the fuck, here is the tabs page, mother fucker!!!</p>
+
+<ion-router-outlet name="home"></ion-router-outlet>
+<ion-router-outlet name="postingOutlet"></ion-router-outlet>
+
+<ion-button href="/tabs/(home:home)">Home</ion-button>
+<ion-button href="/tabs/(postingOutlet:posting)">Post</ion-button> -->

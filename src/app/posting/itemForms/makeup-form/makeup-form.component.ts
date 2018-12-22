@@ -10,6 +10,16 @@ import { ItemCondition } from '../../models/postingModel/common/IitemConditionEn
 })
 export class MakeupFormComponent implements OnInit {
 
+  itemConditionActionSheet: any = {
+    header: 'Item Condition',
+    subHeader: 'or how much LEFT?' 
+  }
+
+  haveReceiptActionSheet: any = {
+    header: 'Have Receipt?'
+  }
+
+
   private itemTypeClass: ItemType = new ItemType();
 
   makeupForm: FormGroup = new FormGroup({});
