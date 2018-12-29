@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Basic Information</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+  <ion-item>
+    <ion-label position="floating">Brand Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Item Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Item Nick Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Item Condition</ion-label>
+    <ion-select [interfaceOptions]="itemConditionActionSheet" interface="action-sheet" placeholder="Select One">
+      <ion-select-option value="10">New-Brand New(10/10)</ion-select-option>
+      <ion-select-option value="8">Used-Like New(8/10)</ion-select-option>
+      <ion-select-option value="6">Used-Very Good(6/10)</ion-select-option>
+      <ion-select-option value="4">Used-Good(4/10)</ion-select-option>
+      <ion-select-option value="2">Used-Acceptible(2/10)</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Price As New</ion-label>
+    <ion-input  type="number"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Selling Price</ion-label>
+    <ion-input type="number"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Have Receipt</ion-label>
+    <ion-select [interfaceOptions]="haveReceiptActionSheet" interface="action-sheet" placeholder="Select One">
+      <ion-select-option value="true">Yes, I have Receipt</ion-select-option>
+      <ion-select-option value="false">No, I don't have Receipt</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+
+  <ion-button (click)="dismissModal()">Dismiss</ion-button>
+
+</ion-content>
