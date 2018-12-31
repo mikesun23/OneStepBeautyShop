@@ -12,7 +12,7 @@ export class MakeupObject extends BaseBeautyObject {
   constructor(initValue: MakeupInterface = {}) {
     super(initValue);
 
-    this.itemType = "makeup";
+    this.itemType = 'makeup';
     this.mfgDate = initValue.mfgDate || new Date();
     this.expDate = initValue.expDate || new Date();
     this.capacityAsNew = initValue.capacityAsNew || '';

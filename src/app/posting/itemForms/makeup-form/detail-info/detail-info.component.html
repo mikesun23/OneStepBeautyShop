@@ -5,5 +5,49 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-button (click)="dismissModal()">Dismiss</ion-button>
+
+  <form [formGroup]="detailInfoForm">
+
+    <ion-item>
+      <ion-label position="floating">Color/Code(optional)</ion-label>
+      <ion-input formControlName="color" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Capacity Left(.est ml)</ion-label>
+      <ion-input formControlName="capacity" type="number"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="capacityLeft.touched && capacityLeft.hasError('required')">
+      Capacity Left Required!
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="floating">Capacity As New</ion-label>
+      <ion-input formControlName="capacityAsNew" type="number"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Expiration Date</ion-label>
+      <ion-datetime formControlName="expDate" display-format="MM/DD/YYYY"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Price Cut Level</ion-label>
+      <ion-select formControlName="priceCutLevel" [interfaceOptions]="priceCutLevelActionSheet" interface="action-sheet"
+        placeholder="Select One">
+        <ion-select-option value="3">No Chop(won't drop price)</ion-select-option>
+        <ion-select-option value="2">Little Chop(some drop on price)</ion-select-option>
+        <ion-select-option value="1">Depends(highle depends on mood?)</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-text color="danger" *ngIf="priceCutLevel.touched && priceCutLevel.hasError('required')">
+      Price Cut Level Required!
+    </ion-text>
+
+    <ion-item>
+      <ion-textarea formControlName="description" placeholder="Description: why you sell? what is good for? ..."></ion-textarea>
+    </ion-item>
+
+    <ion-button (click)="dismissModal()">Next</ion-button>
+  </form>
 </ion-content>

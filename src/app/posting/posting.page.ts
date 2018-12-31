@@ -12,9 +12,9 @@ export class PostingPage implements OnInit {
 
   itemTypes: string[] = new ItemType().getItemType();
 
-  selectedType: string = '';
+  selectedType = '';
 
-  formReady: boolean = false;
+  formReady = false;
 
   constructor(public navController: NavController) { }
 
@@ -25,8 +25,8 @@ export class PostingPage implements OnInit {
 
 
   itemTypeSelected(value: string) {
-    console.log(value)
-    this.formReady = this.selectedType != '' ? true : false;
+    console.log(value);
+    this.formReady = this.selectedType !== '' ? true : false;
   }
 
   nextStep() {

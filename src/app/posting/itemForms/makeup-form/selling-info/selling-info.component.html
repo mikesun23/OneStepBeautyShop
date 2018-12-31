@@ -5,5 +5,41 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-button (click)="dismissModal()">Dismiss</ion-button>
+  <form [formGroup]="sellingInfoForm">
+    <ion-item>
+      <ion-label>Shipping Cost Coverage</ion-label>
+      <ion-select formControlName="shippingCoverage" [interfaceOptions]="shippingCostActionSheet" interface="action-sheet"
+        placeholder="Select One">
+        <ion-select-option value="3">Full Coverage</ion-select-option>
+        <ion-select-option value="2">Share/Half</ion-select-option>
+        <ion-select-option value="1">No Coverage</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-text color="danger" *ngIf="shippingCoverage.touched && shippingCoverage.hasError('required')">
+      Shipping Coverage Required!
+    </ion-text>
+
+    <div formGroupName="address">
+
+      <ion-item>
+        <ion-label position="floating">City</ion-label>
+        <ion-input formControlName="city" type="text"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="city.touched && city.hasError('required')">
+        City Required!
+      </ion-text>
+
+      <ion-item>
+        <ion-label>State</ion-label>
+        <ion-select formControlName="state" [interfaceOptions]="addressStateActionSheet" interface="action-sheet"
+          placeholder="Select One">
+          <ion-select-option [value]="state['key']" *ngFor="let state of allStates">{{state['value']}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="state.touched && state.hasError('required')">
+        State Required!
+      </ion-text>
+    </div>
+    <ion-button (click)="dismissModal()">Next</ion-button>
+  </form>
 </ion-content>

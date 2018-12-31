@@ -52,7 +52,7 @@ export class MakeupFormComponent implements OnInit {
 
     modal.onDidDismiss().then(res => {
       console.log(res);
-    })
+    });
     return await modal.present();
   }
 
@@ -65,7 +65,7 @@ export class MakeupFormComponent implements OnInit {
 
     modal.onDidDismiss().then(res => {
       console.log(res);
-    })
+    });
 
     return await modal.present();
   }
@@ -79,7 +79,7 @@ export class MakeupFormComponent implements OnInit {
 
     modal.onDidDismiss().then(res => {
       console.log(res);
-    })
+    });
 
     return await modal.present();
   }

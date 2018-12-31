@@ -1,5 +1,4 @@
 import { ProductBaseObject, ProductBaseInterface } from './../ProductBaseObject';
-import { ItemAddress } from "../common/ItemAddress";
 
 export class BaseBeautyObject extends ProductBaseObject {
 
