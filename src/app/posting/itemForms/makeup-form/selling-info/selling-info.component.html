@@ -19,8 +19,29 @@
       Shipping Coverage Required!
     </ion-text>
 
-    <div formGroupName="address">
+    <div formGroupName="contactInfo">
+      <ion-item>
+        <ion-label>Contact type</ion-label>
+        <ion-select formControlName="contactType" [interfaceOptions]="contactTypeActionSheet" interface="action-sheet" 
+          placeholder="Select One">
+          <ion-select-option value="wechat">WeChat</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger" *ngIf="contactType.touched && contactType.hasError('required')">
+        Contact Type Required!
+      </ion-text>
 
+
+      <ion-item>
+        <ion-label position="floating">Account Number</ion-label>
+        <ion-input formControlName="accountNumber" type="text"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="accountNumber.touched && accountNumber.hasError('required')">  
+        Account Number Required!
+      </ion-text>
+    </div>
+
+    <div formGroupName="itemAddress">
       <ion-item>
         <ion-label position="floating">City</ion-label>
         <ion-input formControlName="city" type="text"></ion-input>

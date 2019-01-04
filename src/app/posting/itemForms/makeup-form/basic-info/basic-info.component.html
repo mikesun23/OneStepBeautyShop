@@ -11,9 +11,9 @@
 
     <ion-item>
       <ion-label position="floating">Brand Name</ion-label>
-      <ion-input formControlName="brandName" type="text"></ion-input>
+      <ion-input formControlName="itemBrand" type="text"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="brandName.touched && brandName.hasError('required')">
+    <ion-text color="danger" *ngIf="itemBrand.touched && itemBrand.hasError('required')">
       Brand Name Required!
     </ion-text>
 
@@ -68,7 +68,7 @@
     </ion-item>
 
 
-    <ion-button (click)="dismissModal()">Next</ion-button>
+    <ion-button [disabled]="itemBrand.value==='' || itemName.value==='' || itemCondition.value==='' || priceAsSell.value===''" (click)="dismissModal()">Next</ion-button>
 
   </form>
 </ion-content>

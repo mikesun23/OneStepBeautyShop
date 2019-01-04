@@ -19,9 +19,11 @@ export class BasicInfoComponent implements OnInit {
 
   basicInfoForm: FormGroup;
 
+  enableNext = false;
+
   constructor(public modalController: ModalController, private fb: FormBuilder) {
     this.basicInfoForm = this.fb.group({
-      brandName: ['', Validators.required],
+      itemBrand: ['', Validators.required],
       itemName: ['', Validators.required],
       itemNickName: [''],
       itemCondition: ['', Validators.required],
@@ -34,7 +36,7 @@ export class BasicInfoComponent implements OnInit {
   ngOnInit() {
   }
 
-  get brandName() { return this.basicInfoForm.get('brandName'); }
+  get itemBrand() { return this.basicInfoForm.get('itemBrand'); }
   get itemName() { return this.basicInfoForm.get('itemName'); }
   get itemNickName() { return this.basicInfoForm.get('itemNickName'); }
   get itemCondition() { return this.basicInfoForm.get('itemCondition'); }
@@ -44,7 +46,7 @@ export class BasicInfoComponent implements OnInit {
 
   dismissModal() {
     this.modalController.dismiss({
-      resultForm: this.basicInfoForm.value
+      resultForm: this.basicInfoForm
     });
     console.log('dismiss button was hit!!');
   }

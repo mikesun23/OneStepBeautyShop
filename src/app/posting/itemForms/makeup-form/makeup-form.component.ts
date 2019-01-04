@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemType } from '../../models/postingModel/common/ItemType';
 import { FormGroup } from '@angular/forms';
-import { ItemCondition } from '../../models/postingModel/common/IitemConditionEnum';
+
 
 import { ModalController } from '@ionic/angular';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
@@ -21,8 +21,13 @@ export class MakeupFormComponent implements OnInit {
 
   makeupForm: FormGroup = new FormGroup({});
 
+  enableDetailInfo = true;
+  enableSellingInfo = true;
+  enableUploadImg = true;
+
   constructor(public modalController: ModalController) {
     this.makeupForm = this.itemTypeClass.initItemForm('makeup');
+    this.makeupForm.value['itemType'] = 'makeup';
     console.log(this.makeupForm.controls);
   }
 
@@ -36,35 +41,57 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res);
+      const basicForm = res.data['resultForm'] as FormGroup;
+      Object.keys(basicForm.controls).forEach(key => {
+        if (this.makeupForm.controls[key]) {
+          this.makeupForm.controls[key] = basicForm.controls[key];
+          this.makeupForm.value[key] = basicForm.controls[key].value;
+        }
+      });
+
+      this.enableDetailInfo = true;
     });
-
     return await modal.present();
-
   }
 
   async showDetailInfoModal() {
-    console.log('detail info modal hit');
     const modal = await this.modalController.create({
       component: DetailInfoComponent,
       componentProps: {}
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res);
+      const detailForm = res.data['resultForm'] as FormGroup;
+      Object.keys(detailForm.controls).forEach(key => {
+        if (this.makeupForm.controls[key]) {
+          this.makeupForm.controls[key] = detailForm.controls[key];
+          this.makeupForm.value[key] = detailForm.controls[key].value;
+        }
+      });
+      this.enableSellingInfo = true;
     });
     return await modal.present();
   }
 
   async showSellingInfoModal() {
-    console.log('selling info modal hit');
     const modal = await this.modalController.create({
       component: SellingInfoComponent,
       componentProps: {}
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res);
+      const sellingForm = res.data['resultForm'] as FormGroup;
+      console.log(sellingForm);
+      Object.keys(sellingForm.controls).forEach(key => {
+        console.log(key);
+        if (this.makeupForm.controls[key]) {
+          console.log(key);
+          this.makeupForm.controls[key] = sellingForm.controls[key];
+          this.makeupForm.value[key] = sellingForm.controls[key].value;
+        }
+      });
+      console.log(this.makeupForm.value);
+      this.enableUploadImg = true;
     });
 
     return await modal.present();
@@ -78,7 +105,7 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res);
+      console.log(res.data);
     });
 
     return await modal.present();
@@ -115,6 +142,39 @@ export class MakeupFormComponent implements OnInit {
  *
  *
  *
+ PRE SET:
+    itemType
+
+NON USED:
+    mfgDate
+    reasonBuy:
+    reasonSell
+    specialSellingPoints:
+
+
+BASIC INFO:
+    itemBrand
+    itemName
+    itemNickName
+    itemCondition
+    priceAsNew
+    priceAsSell
+    haveReceipt
+
+DETAIL INFO:
+    colorCode
+    capacityAsSell
+    capacityAsNew
+    expDate
+    *(new add) expDateNA
+    priceNegotiableLevel
+    briefDescription
+
+SELLING INFO:
+    shippingCoverage
+    itemAddress
+    contactInfo
+
  *
  *
  *

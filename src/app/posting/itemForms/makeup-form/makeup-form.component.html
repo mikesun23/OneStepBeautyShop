@@ -8,8 +8,6 @@
 </ion-header>
 
 <ion-content>
-
-
   <ion-grid>
 
     <ion-row align-items-center>
@@ -29,7 +27,7 @@
     <ion-row align-items-center>
       <ion-col size="3"></ion-col>
       <ion-col align-self-center>
-        <ion-button (click)="showDetailInfoModal()">Detail Information</ion-button>
+        <ion-button [disabled]="!enableDetailInfo" (click)="showDetailInfoModal()">Detail Information</ion-button>
       </ion-col>
     </ion-row>
 
@@ -43,7 +41,7 @@
     <ion-row align-items-center>
       <ion-col size="3"></ion-col>
       <ion-col align-self-center>
-        <ion-button (click)="showSellingInfoModal()">Selling Information</ion-button>
+        <ion-button [disabled]="!enableSellingInfo" (click)="showSellingInfoModal()">Selling Information</ion-button>
       </ion-col>
     </ion-row>
 
@@ -57,7 +55,7 @@
     <ion-row align-items-center>
       <ion-col size="3"></ion-col>
       <ion-col align-self-center>
-        <ion-button (click)="showImageUploadModal()">Upload Image</ion-button>
+        <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()">Upload Image</ion-button>
       </ion-col>
       <ion-col></ion-col>
     </ion-row>

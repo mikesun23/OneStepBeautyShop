@@ -2,6 +2,8 @@ import { PostingPageRoutingModule } from './posting.router.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -21,12 +23,16 @@ import { SellingInfoComponent } from './itemForms/makeup-form/selling-info/selli
     IonicModule,
   ],
   declarations: [
-    PostingPage, 
-    MakeupFormComponent, 
-    BasicInfoComponent, 
-    DetailInfoComponent, 
-    ImageUploadComponent, 
+    PostingPage,
+    MakeupFormComponent,
+    BasicInfoComponent,
+    DetailInfoComponent,
+    ImageUploadComponent,
     SellingInfoComponent
+  ],
+  providers: [
+    PhotoLibrary,
+    Camera
   ]
 })
 export class PostingPageModule { }

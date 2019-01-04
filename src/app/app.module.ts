@@ -5,6 +5,8 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -29,20 +31,21 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     ImageUploadComponent
   ],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
     TabsPageModule,
     PostingPageModule
-    
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    PhotoLibrary,
+    Camera,
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ export class MakeupObject extends BaseBeautyObject {
   // itemType: string = 'makeup';
   mfgDate: Date;
   expDate: Date;
+  expDateNA: boolean;
   capacityAsNew: string;
   capacityAsSell: string;
   colorCode: string;
@@ -15,6 +16,7 @@ export class MakeupObject extends BaseBeautyObject {
     this.itemType = 'makeup';
     this.mfgDate = initValue.mfgDate || new Date();
     this.expDate = initValue.expDate || new Date();
+    this.expDateNA = initValue.expDateNA || false;
     this.capacityAsNew = initValue.capacityAsNew || '';
     this.capacityAsSell = initValue.capacityAsSell || '';
     this.colorCode = initValue.colorCode || '';
@@ -27,6 +29,7 @@ export interface MakeupInterface extends BaseBeautyInterface {
 
   mfgDate?: Date;
   expDate?: Date;
+  expDateNA?: boolean;
   capacityAsNew?: string;
   capacityAsSell?: string;
   colorCode?: string;

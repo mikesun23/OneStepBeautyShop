@@ -18,6 +18,6 @@
   </ion-radio-group>
   
   
-  <ion-button href="/tabs/(postingOutlet:posting/makeupForm)" (click)="nextStep()">Next Step</ion-button>
+  <ion-button [disabled]="!formReady" (click)="nextStep()">Next Step</ion-button>
   
 </ion-content>

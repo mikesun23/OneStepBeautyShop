@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FiftyStates } from 'src/app/common/us_states';
@@ -12,7 +12,12 @@ export class SellingInfoComponent implements OnInit {
 
   shippingCostActionSheet: any = {
     header: 'Shipping Cost Coverage',
-    subheader: 'how you want to pay for shipping?'
+    subHeader: 'how you want to pay for shipping?'
+  };
+
+  contactTypeActionSheet: any = {
+    header: 'Contact Type',
+    subHeader: 'Will be more kinds shortly'
   };
 
   addressStateActionSheet: any = {
@@ -25,8 +30,12 @@ export class SellingInfoComponent implements OnInit {
 
   constructor(public modalController: ModalController, private fb: FormBuilder) {
     this.sellingInfoForm = this.fb.group({
-      shippingCoverage: [''],
-      address: this.fb.group({
+      shippingCoverage: ['', Validators.required],
+      contactInfo: this.fb.group({
+        contactType: ['', Validators.required],
+        accountNumber: ['', Validators.required]
+      }),
+      itemAddress: this.fb.group({
         city: [''],
         state: ['']
       })
@@ -37,12 +46,14 @@ export class SellingInfoComponent implements OnInit {
   }
 
   get shippingCoverage() { return this.sellingInfoForm.get('shippingCoverage'); }
-  get city() { return this.sellingInfoForm.controls['address'].get('city'); }
-  get state() { return this.sellingInfoForm.controls['address'].get('state'); }
+  get contactType() { return this.sellingInfoForm.controls['contactInfo'].get('contactType'); }
+  get accountNumber() { return this.sellingInfoForm.controls['contactInfo'].get('accountNumber'); }
+  get city() { return this.sellingInfoForm.controls['itemAddress'].get('city'); }
+  get state() { return this.sellingInfoForm.controls['itemAddress'].get('state'); }
 
   dismissModal() {
     this.modalController.dismiss({
-      resultForm: this.sellingInfoForm.value
+      resultForm: this.sellingInfoForm
     });
     console.log('dismiss button was hit!!');
   }

@@ -10,42 +10,49 @@
 
     <ion-item>
       <ion-label position="floating">Color/Code(optional)</ion-label>
-      <ion-input formControlName="color" type="text"></ion-input>
+      <ion-input formControlName="colorCode" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="floating">Capacity Left(.est ml)</ion-label>
-      <ion-input formControlName="capacity" type="number"></ion-input>
+      <ion-input formControlName="capacityAsSell" type="number"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="capacityLeft.touched && capacityLeft.hasError('required')">
+    <ion-text color="danger" *ngIf="capacityAsSell.touched && capacityAsSell.hasError('required')">
       Capacity Left Required!
     </ion-text>
 
     <ion-item>
-      <ion-label position="floating">Capacity As New</ion-label>
+      <ion-label position="floating">Capacity As New(ml)</ion-label>
       <ion-input formControlName="capacityAsNew" type="number"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item [disabled]="expDateNA.value===true">
       <ion-label>Expiration Date</ion-label>
       <ion-datetime formControlName="expDate" display-format="MM/DD/YYYY"></ion-datetime>
     </ion-item>
 
     <ion-item>
+      <ion-label>Expiration Date Not Available</ion-label>
+      <ion-checkbox formControlName="expDateNA" color="dark"></ion-checkbox>
+    </ion-item>
+
+
+
+    <ion-item>
       <ion-label>Price Cut Level</ion-label>
-      <ion-select formControlName="priceCutLevel" [interfaceOptions]="priceCutLevelActionSheet" interface="action-sheet"
+      <ion-select formControlName="priceNegotiableLevel" [interfaceOptions]="priceCutLevelActionSheet" interface="action-sheet"
         placeholder="Select One">
         <ion-select-option value="3">No Chop(won't drop price)</ion-select-option>
         <ion-select-option value="2">Little Chop(some drop on price)</ion-select-option>
         <ion-select-option value="1">Depends(highle depends on mood?)</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-text color="danger" *ngIf="priceCutLevel.touched && priceCutLevel.hasError('required')">
+    <ion-text color="danger" *ngIf="priceNegotiableLevel.touched && priceNegotiableLevel.hasError('required')">
       Price Cut Level Required!
     </ion-text>
 
     <ion-item>
-      <ion-textarea formControlName="description" placeholder="Description: why you sell? what is good for? ..."></ion-textarea>
+      <ion-textarea formControlName="briefDescription" placeholder="Description: why you sell? what is good for? ..."></ion-textarea>
     </ion-item>
 
     <ion-button (click)="dismissModal()">Next</ion-button>
