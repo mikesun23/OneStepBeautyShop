@@ -1,10 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Image Upload</ion-title>
+    <ion-title>Image Uploadddddd</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-button (click)="takePicture()">Take Picture</ion-button>
+  <ion-button (click)="showActionSheet()">Take Picture</ion-button>
   <ion-button (click)="dismissModal()">Dismiss</ion-button>
+
+  <ion-virtual-scroll [items]="images">
+    <ion-item *virtualItem="let item">
+      <ion-img src='item'></ion-img>
+    </ion-item>
+  </ion-virtual-scroll>
+
+
 </ion-content>

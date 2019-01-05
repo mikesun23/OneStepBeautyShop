@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDCKAWma5BtK-pJyGeYRafnvCSUsZcfqRE",
-    authDomain: "onestepbeautyshop-88888.firebaseapp.com",
-    databaseURL: "https://onestepbeautyshop-88888.firebaseio.com",
-    projectId: "onestepbeautyshop-88888",
-    storageBucket: "onestepbeautyshop-88888.appspot.com",
-    messagingSenderId: "991993653440"
+    apiKey: 'AIzaSyDCKAWma5BtK-pJyGeYRafnvCSUsZcfqRE',
+    authDomain: 'onestepbeautyshop-88888.firebaseapp.com',
+    databaseURL: 'https://onestepbeautyshop-88888.firebaseio.com',
+    projectId: 'onestepbeautyshop-88888',
+    storageBucket: 'onestepbeautyshop-88888.appspot.com',
+    messagingSenderId: '991993653440'
   }
 
 };

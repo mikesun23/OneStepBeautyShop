@@ -28,7 +28,6 @@ export class PostingPage implements OnInit {
 
 
   itemTypeSelected(value: string) {
-    console.log(value);
     this.selectedType = value;
     this.formReady = true;
     this.formPath = '/tabs/(postingOutlet:posting/' + value + 'Form)';
@@ -36,7 +35,6 @@ export class PostingPage implements OnInit {
   }
 
   nextStep() {
-    console.log('go to item form!');
     this.router.navigateByUrl(this.formPath);
   }
 }

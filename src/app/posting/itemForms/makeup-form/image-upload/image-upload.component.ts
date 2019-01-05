@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ActionSheetController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 
 
@@ -11,7 +12,14 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 })
 export class ImageUploadComponent implements OnInit {
 
-  constructor(public modalController: ModalController, private camera: Camera) { }
+  images: any[] = [];
+
+  constructor(
+    public modalController: ModalController,
+    private camera: Camera,
+    // private file: File,
+    public actionSheetCtrl: ActionSheetController
+  ) { }
 
   ngOnInit() {
   }
@@ -23,6 +31,38 @@ export class ImageUploadComponent implements OnInit {
     console.log('dismiss button was hit!!');
   }
 
+  async showActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Select Image Source',
+      subHeader: 'up to 9 photos',
+      buttons: [
+        {
+          text: 'Take a Photo',
+          icon: 'camera',
+          handler: () => {
+            this.takePicture();
+          }
+        },
+        {
+          text: 'Load From Library',
+          icon: 'images',
+          handler: () => {
+            this.loadFromLibrary();
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            this.actionSheetCtrl.dismiss();
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
   setCameraOptions(srcType: number) {
     const options = {
       quality: 100,
@@ -30,8 +70,8 @@ export class ImageUploadComponent implements OnInit {
       sourceType: srcType,
       allowEdit: false,
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 300,
-      targetHeight: 300,
+      targetWidth: 100,
+      targetHeight: 100,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
       saveToPhotoAlbum: true,
@@ -43,22 +83,42 @@ export class ImageUploadComponent implements OnInit {
 
   takePicture() {
 
-    const options: CameraOptions = this.setCameraOptions(this.camera.PictureSourceType.CAMERA);
+    const srcType = this.camera.PictureSourceType.CAMERA;
+    const options: CameraOptions = this.setCameraOptions(srcType);
 
     this.camera.getPicture(options).then((imageData) => {
       // imageData is either a base64 encoded string or a file URI
       // If it's base64 (DATA_URL):
       const base64Image = 'data:image/jpeg;base64,' + imageData;
+      this.images.push(imageData);
       setTimeout(() => {
         alert(imageData);
       }, 0);
-    }, (err) => {
-      // Handle error
-      setTimeout(() => {
-        alert(err);
-      }, );
+    },
+      (err) => {
+        // Handle error
+        setTimeout(() => {
+          alert(err);
+        });
 
-    });
+      });
+  }
+
+  loadFromLibrary() {
+    const srcType = this.camera.PictureSourceType.SAVEDPHOTOALBUM;
+    const options: CameraOptions = this.setCameraOptions(srcType);
+
+    this.camera.getPicture(options).then(imageData => {
+      this.images.push(imageData);
+      setTimeout(() => {
+        alert(imageData);
+      });
+    },
+      (err) => {
+        setTimeout(() => {
+          alert(err);
+        });
+      });
   }
 
 

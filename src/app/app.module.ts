@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { File } from '@ionic-native/file/ngx';
+
+
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -37,6 +42,8 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
+    AngularFireDatabaseModule,
     TabsPageModule,
     PostingPageModule
   ],
@@ -46,6 +53,7 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PhotoLibrary,
     Camera,
+    File
   ],
   bootstrap: [AppComponent]
 })
