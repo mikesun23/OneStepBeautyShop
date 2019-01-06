@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { environment } from '../environments/environment';
-import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -51,7 +50,6 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    PhotoLibrary,
     Camera,
     File
   ],

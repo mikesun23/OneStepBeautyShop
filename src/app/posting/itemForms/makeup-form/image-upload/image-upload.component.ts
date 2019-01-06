@@ -14,10 +14,12 @@ export class ImageUploadComponent implements OnInit {
 
   images: any[] = [];
 
+  testSrc: any = '';
+
   constructor(
     public modalController: ModalController,
     private camera: Camera,
-    // private file: File,
+    private file: File,
     public actionSheetCtrl: ActionSheetController
   ) { }
 
@@ -70,8 +72,6 @@ export class ImageUploadComponent implements OnInit {
       sourceType: srcType,
       allowEdit: false,
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 100,
-      targetHeight: 100,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
       saveToPhotoAlbum: true,
@@ -91,6 +91,15 @@ export class ImageUploadComponent implements OnInit {
       // If it's base64 (DATA_URL):
       const base64Image = 'data:image/jpeg;base64,' + imageData;
       this.images.push(imageData);
+      this.testSrc = imageData;
+
+      const fileName = imageData.substring(imageData.lastIndexOf('/') + 1);
+      const path = imageData.substring(0, imageData.lastIndexOf('/') + 1);
+
+      this.file.readAsDataURL(path, fileName).then(res => {
+        this.testSrc = res;
+      });
+
       setTimeout(() => {
         alert(imageData);
       }, 0);
