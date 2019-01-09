@@ -9,6 +9,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { File } from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 
 
@@ -51,7 +52,8 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
-    File
+    File,
+    WebView
   ],
   bootstrap: [AppComponent]
 })

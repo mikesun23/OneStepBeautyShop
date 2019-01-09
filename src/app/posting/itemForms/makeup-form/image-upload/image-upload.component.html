@@ -5,24 +5,33 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-button (click)="showActionSheet()">Take Picture</ion-button>
-  <ion-button (click)="dismissModal()">Dismiss</ion-button>
+  <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="solid" expand="full" color="primary" (click)="dismissModal()">
+    Finished
+  </ion-button>
 
-  <!-- <ion-virtual-scroll [items]="images">
-    <ion-item *virtualItem="let item">
-      <ion-img [src]='item'></ion-img>
-    </ion-item>
-  </ion-virtual-scroll> -->
+  <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="outline" expand="full" color="primary" (click)="takePicture()">
+    <ion-icon name="camera"></ion-icon>
+    Take Photo
+  </ion-button>
 
-  <ion-item>
-    <img [src]='testSrc.url'>
-    <img [src]="testSrc" alt="shit">
-    <img src="{{testSrc}}" alt="N/A">
-
-    <p>{{testSrc}} is here!</p>
-  </ion-item>
+  <ion-button fill="outline" expand="full" color="primary" (click)="loadFromLibrary()">
+    <ion-icon name="images"></ion-icon>
+    Load Photo
+  </ion-button>
 
 
+
+
+  <ion-slides *ngIf="images.length>0" #previewSlides pager="true">
+    <ion-slide (click)="imageDeleteActionSheet()" *ngFor="let image of images">
+      <ion-img [src]="image"></ion-img>
+    </ion-slide>
+  </ion-slides>
 
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button>Delete Photo</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, ActionSheetController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, ActionSheetController, Slides } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+
 
 
 
@@ -12,15 +14,19 @@ import { File } from '@ionic-native/file/ngx';
 })
 export class ImageUploadComponent implements OnInit {
 
-  images: any[] = [];
+  @ViewChild(Slides) slides: Slides;
 
-  testSrc: any = '';
+  imageMaxAmount = 9;
+  imageLoadedAmount = 0;
+
+  images: string[] = [];
 
   constructor(
     public modalController: ModalController,
     private camera: Camera,
     private file: File,
-    public actionSheetCtrl: ActionSheetController
+    public actionSheetCtrl: ActionSheetController,
+    private webView: WebView
   ) { }
 
   ngOnInit() {
@@ -33,23 +39,36 @@ export class ImageUploadComponent implements OnInit {
     console.log('dismiss button was hit!!');
   }
 
-  async showActionSheet() {
+  async imageDeleteActionSheet() {
+    const index: number = await this.slides.getActiveIndex().then(res => res);
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Select Image Source',
-      subHeader: 'up to 9 photos',
       buttons: [
         {
-          text: 'Take a Photo',
-          icon: 'camera',
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
           handler: () => {
-            this.takePicture();
-          }
-        },
-        {
-          text: 'Load From Library',
-          icon: 'images',
-          handler: () => {
-            this.loadFromLibrary();
+            if (index >= 0 && this.images[index] !== undefined) {
+              this.actionSheetCtrl.dismiss().then(res => {
+                this.imageLoadedAmount--;
+                if (index > 0) {
+                  this.slides.slideTo(0).then(suc => {
+                    this.images.splice(index, 1);
+                    this.slides.update();
+                  });
+                } else {
+                  if (this.images.length > 1) {
+                    this.slides.slideTo(0).then (suc => {
+                      this.images.splice(index, 1);
+                      this.slides.update();
+                    });
+                  } else {
+                    this.images.splice(index, 1);
+                    this.slides.update();
+                  }
+                }
+              });
+            }
           }
         },
         {
@@ -74,7 +93,7 @@ export class ImageUploadComponent implements OnInit {
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       correctOrientation: true,
-      saveToPhotoAlbum: true,
+      saveToPhotoAlbum: false,
       cameraDirection: this.camera.Direction.BACK
     };
 
@@ -82,27 +101,12 @@ export class ImageUploadComponent implements OnInit {
   }
 
   takePicture() {
-
     const srcType = this.camera.PictureSourceType.CAMERA;
     const options: CameraOptions = this.setCameraOptions(srcType);
-
     this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      const base64Image = 'data:image/jpeg;base64,' + imageData;
-      this.images.push(imageData);
-      this.testSrc = imageData;
-
-      const fileName = imageData.substring(imageData.lastIndexOf('/') + 1);
-      const path = imageData.substring(0, imageData.lastIndexOf('/') + 1);
-
-      this.file.readAsDataURL(path, fileName).then(res => {
-        this.testSrc = res;
-      });
-
-      setTimeout(() => {
-        alert(imageData);
-      }, 0);
+      const convertedUrl = this.webView.convertFileSrc(imageData);
+      this.images.push(convertedUrl);
+      this.imageLoadedAmount++;
     },
       (err) => {
         // Handle error
@@ -116,12 +120,11 @@ export class ImageUploadComponent implements OnInit {
   loadFromLibrary() {
     const srcType = this.camera.PictureSourceType.SAVEDPHOTOALBUM;
     const options: CameraOptions = this.setCameraOptions(srcType);
-
     this.camera.getPicture(options).then(imageData => {
-      this.images.push(imageData);
-      setTimeout(() => {
-        alert(imageData);
-      });
+      const convertedUrl = this.webView.convertFileSrc(imageData);
+      console.log('converted Url: ' + convertedUrl);
+      this.images.push(convertedUrl);
+      this.imageLoadedAmount++;
     },
       (err) => {
         setTimeout(() => {
@@ -130,5 +133,26 @@ export class ImageUploadComponent implements OnInit {
       });
   }
 
+  // copyFileToDirectory(namePath: string, currentName: string) {
+  //   this.file.copyFile(namePath, currentName, this.file.dataDirectory, currentName).then(res => {
+  //     this.testSrc = this.file.dataDirectory + currentName;
+  //   });
+
+  // }
+
+  pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      const converted = this.webView.convertFileSrc(img);
+      return converted;
+    }
+  }
 
 }
+
+/**
+ * how to remove slide from slides???
+ * 1. use swiper instead of the wrapper Slides
+ * 2. manually remove the element from DOM
+ */
