@@ -1,6 +1,7 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { SubmitPostingService } from 'src/app/posting/services/submitPost/submit-posting.service';
 
 @Component({
   selector: 'app-basic-info',

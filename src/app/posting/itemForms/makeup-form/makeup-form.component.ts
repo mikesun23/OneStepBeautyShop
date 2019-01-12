@@ -20,10 +20,12 @@ export class MakeupFormComponent implements OnInit {
   private itemTypeClass: ItemType = new ItemType();
 
   makeupForm: FormGroup = new FormGroup({});
+  imageUrlList: string[] = [];
 
-  enableDetailInfo = true;
-  enableSellingInfo = true;
-  enableUploadImg = true;
+  enableDetailInfo = false;
+  enableSellingInfo = false;
+  enableUploadImg = false;
+  enableSubmitPost = false;
 
   constructor(public modalController: ModalController) {
     this.makeupForm = this.itemTypeClass.initItemForm('makeup');
@@ -98,17 +100,22 @@ export class MakeupFormComponent implements OnInit {
   }
 
   async showImageUploadModal() {
-    console.log('image upload modal hit');
     const modal = await this.modalController.create({
       component: ImageUploadComponent,
       componentProps: {}
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res.data);
+      this.imageUrlList = res.data['imageUrlList'];
+      this.enableSubmitPost = true;
     });
 
     return await modal.present();
+  }
+
+  submitPost() {
+    console.log(this.makeupForm.value);
+    console.log(this.imageUrlList);
   }
 
 }

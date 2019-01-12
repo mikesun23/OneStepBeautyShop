@@ -31,9 +31,10 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs',
+    redirectTo: '/tabs/(home:home)',
     pathMatch: 'full'
-  }
+  },
+
 ];
 
 @NgModule({

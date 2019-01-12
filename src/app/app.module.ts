@@ -10,12 +10,13 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,10 +26,11 @@ import { BasicInfoComponent } from './posting/itemForms/makeup-form/basic-info/b
 import { DetailInfoComponent } from './posting/itemForms/makeup-form/detail-info/detail-info.component';
 import { SellingInfoComponent } from './posting/itemForms/makeup-form/selling-info/selling-info.component';
 import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-upload/image-upload.component';
+import { IntroductionSliderComponent } from './introduction-slider/introduction-slider.component';
 
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, IntroductionSliderComponent],
   entryComponents: [
     BasicInfoComponent,
     DetailInfoComponent,
@@ -53,7 +55,8 @@ import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-uplo
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Camera,
     File,
-    WebView
+    WebView,
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })

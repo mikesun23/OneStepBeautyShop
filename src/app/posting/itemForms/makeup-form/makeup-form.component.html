@@ -32,11 +32,11 @@
     </ion-row>
 
     <ion-row>
-        <ion-col size="5"></ion-col>
-        <ion-col>
-          <ion-icon name="arrow-round-down"></ion-icon>
-        </ion-col>
-      </ion-row>
+      <ion-col size="5"></ion-col>
+      <ion-col>
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </ion-col>
+    </ion-row>
 
     <ion-row align-items-center>
       <ion-col size="3"></ion-col>
@@ -46,16 +46,24 @@
     </ion-row>
 
     <ion-row>
-        <ion-col size="5"></ion-col>
-        <ion-col>
-          <ion-icon name="arrow-round-down"></ion-icon>
-        </ion-col>
-      </ion-row>
+      <ion-col size="5"></ion-col>
+      <ion-col>
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </ion-col>
+    </ion-row>
 
     <ion-row align-items-center>
       <ion-col size="3"></ion-col>
       <ion-col align-self-center>
         <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()">Upload Image</ion-button>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col size="3"></ion-col>
+      <ion-col align-self-center>
+        <ion-button [disabled]="!(enableDetailInfo && enableSellingInfo && enableUploadImg && enableSubmitPost)" (click)="submitPost()">Submit it!</ion-button>
       </ion-col>
       <ion-col></ion-col>
     </ion-row>

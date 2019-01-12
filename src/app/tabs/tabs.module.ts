@@ -20,8 +20,9 @@ import { PostingPageModule } from './../posting/posting.module';
     HomePageModule,
     AboutPageModule,
     ContactPageModule,
-    PostingPageModule
+    PostingPageModule,
+
   ],
   declarations: [TabsPage]
 })
-export class TabsPageModule {}
+export class TabsPageModule { }

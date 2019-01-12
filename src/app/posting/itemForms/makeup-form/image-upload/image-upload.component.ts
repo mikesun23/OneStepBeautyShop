@@ -5,8 +5,6 @@ import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 
-
-
 @Component({
   selector: 'app-image-upload',
   templateUrl: './image-upload.component.html',
@@ -18,8 +16,8 @@ export class ImageUploadComponent implements OnInit {
 
   imageMaxAmount = 9;
   imageLoadedAmount = 0;
-
   images: string[] = [];
+
 
   constructor(
     public modalController: ModalController,
@@ -34,7 +32,7 @@ export class ImageUploadComponent implements OnInit {
 
   dismissModal() {
     this.modalController.dismiss({
-      'result': 'hello world'
+      imageUrlList: this.images
     });
     console.log('dismiss button was hit!!');
   }
@@ -122,7 +120,6 @@ export class ImageUploadComponent implements OnInit {
     const options: CameraOptions = this.setCameraOptions(srcType);
     this.camera.getPicture(options).then(imageData => {
       const convertedUrl = this.webView.convertFileSrc(imageData);
-      console.log('converted Url: ' + convertedUrl);
       this.images.push(convertedUrl);
       this.imageLoadedAmount++;
     },
@@ -137,17 +134,16 @@ export class ImageUploadComponent implements OnInit {
   //   this.file.copyFile(namePath, currentName, this.file.dataDirectory, currentName).then(res => {
   //     this.testSrc = this.file.dataDirectory + currentName;
   //   });
-
   // }
 
-  pathForImage(img) {
-    if (img === null) {
-      return '';
-    } else {
-      const converted = this.webView.convertFileSrc(img);
-      return converted;
-    }
-  }
+  // pathForImage(img) {
+  //   if (img === null) {
+  //     return '';
+  //   } else {
+  //     const converted = this.webView.convertFileSrc(img);
+  //     return converted;
+  //   }
+  // }
 
 }
 
