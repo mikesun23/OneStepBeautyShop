@@ -8,6 +8,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./basic-info.component.scss']
 })
 export class BasicInfoComponent implements OnInit {
+
   itemConditionActionSheet: any = {
     header: 'Item Condition',
     subHeader: 'or how much LEFT?'

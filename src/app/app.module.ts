@@ -27,6 +27,7 @@ import { DetailInfoComponent } from './posting/itemForms/makeup-form/detail-info
 import { SellingInfoComponent } from './posting/itemForms/makeup-form/selling-info/selling-info.component';
 import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-upload/image-upload.component';
 import { IntroductionSliderComponent } from './introduction-slider/introduction-slider.component';
+import { SubmitPostingService } from './posting/services/submitPost/submit-posting.service';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { IntroductionSliderComponent } from './introduction-slider/introduction-
     Camera,
     File,
     WebView,
-    GooglePlus
+    GooglePlus,
+    SubmitPostingService
   ],
   bootstrap: [AppComponent]
 })

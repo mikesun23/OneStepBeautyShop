@@ -10,6 +10,8 @@ import { ContactPageModule } from '../contact/contact.module';
 import { AboutPageModule } from '../about/about.module';
 import { HomePageModule } from '../home/home.module';
 import { PostingPageModule } from './../posting/posting.module';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { UploadingModalComponent } from '../posting/itemForms/makeup-form/uploading-modal/uploading-modal.component';
 
 @NgModule({
   imports: [
@@ -23,6 +25,6 @@ import { PostingPageModule } from './../posting/posting.module';
     PostingPageModule,
 
   ],
-  declarations: [TabsPage]
+  declarations: [TabsPage, LoginModalComponent, UploadingModalComponent]
 })
 export class TabsPageModule { }

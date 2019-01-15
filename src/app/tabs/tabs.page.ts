@@ -24,24 +24,20 @@ export class TabsPage implements OnInit {
     private platform: Platform) {
 
     this.user = this.afAuth.authState;
-
   }
 
-  ngOnInit() {
-    this.user.subscribe(async user => {
-      if (user !== null) {
-        const localUser = await this.localStorage.get('localStoredUserId');
-        if (localUser !== null && localUser !== undefined && localUser !== '') {
-          // TODO: system has userId information already
-          console.log('local storage has User information already');
-        } else {
+  async ngOnInit() {
+    if (this.user !== undefined && this.user !== null) {
+      this.user.subscribe(async user => {
+        const localUser = await this.localStorage.get('localStoredUser');
+        if (localUser === null || localUser === undefined || localUser !== '') {
+          this.localStorage.set('localStoredUser', user);
           this.localStorage.set('localStoredUserId', user.uid);
         }
-      } else {
-        // TODO: direct to login page, let user login again.
-        console.log('user is not logged-in');
-      }
-    }).unsubscribe();
+      });
+    } else {
+      // navigate to login page, let user login/signup
+    }
   }
 
 

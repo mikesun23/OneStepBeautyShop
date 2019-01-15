@@ -3,12 +3,14 @@ import { ItemType } from '../../models/postingModel/common/ItemType';
 import { FormGroup } from '@angular/forms';
 
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { DetailInfoComponent } from './detail-info/detail-info.component';
 import { SellingInfoComponent } from './selling-info/selling-info.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SubmitPostingService } from '../../services/submitPost/submit-posting.service';
+import { Router } from '@angular/router';
+import { UploadingModalComponent } from './uploading-modal/uploading-modal.component';
 
 
 @Component({
@@ -27,11 +29,16 @@ export class MakeupFormComponent implements OnInit {
   enableSellingInfo = false;
   enableUploadImg = false;
   enableSubmitPost = false;
+  enableSuccessMessage = false;
 
-  constructor(public modalController: ModalController, private postingService: SubmitPostingService) {
+  constructor(
+    public modalController: ModalController,
+    private postingService: SubmitPostingService,
+    private router: Router,
+    public loadingController: LoadingController) {
+
     this.makeupForm = this.itemTypeClass.initItemForm('makeup');
     this.makeupForm.value['itemType'] = 'makeup';
-    console.log(this.makeupForm.controls);
   }
 
   ngOnInit() {
@@ -114,9 +121,36 @@ export class MakeupFormComponent implements OnInit {
     return await modal.present();
   }
 
-  submitPost() {
-    this.postingService.submitPost(this.makeupForm.value, this.imageUrlList, this.makeupForm.value['itemType']);
-    // TODO: show loading page => show success page => navigate away to other page.
+  async showLoadingModal() {
+    const modal = await this.loadingController.create({
+      message: 'Uploading...'
+    });
+
+    return await modal.present();
+  }
+
+  async showLoadingSuccessMessageModal() {
+    const modal = await this.modalController.create({
+      component: UploadingModalComponent,
+      componentProps: {}
+    });
+
+    return await modal.present();
+  }
+
+  async submitPost() {
+    this.showLoadingModal().then(() => {
+      this.postingService.submitPost(this.makeupForm.value, this.imageUrlList, this.makeupForm.value['itemType']).then(() => {
+
+        this.loadingController.dismiss();
+        this.showLoadingSuccessMessageModal().then(() => {
+          setTimeout(() => {
+            this.modalController.dismiss();
+          }, 1500);
+        });
+        this.router.navigateByUrl('/');
+      });
+    });
   }
 
 }
