@@ -8,6 +8,7 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { DetailInfoComponent } from './detail-info/detail-info.component';
 import { SellingInfoComponent } from './selling-info/selling-info.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { SubmitPostingService } from '../../services/submitPost/submit-posting.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class MakeupFormComponent implements OnInit {
   enableUploadImg = false;
   enableSubmitPost = false;
 
-  constructor(public modalController: ModalController) {
+  constructor(public modalController: ModalController, private postingService: SubmitPostingService) {
     this.makeupForm = this.itemTypeClass.initItemForm('makeup');
     this.makeupForm.value['itemType'] = 'makeup';
     console.log(this.makeupForm.controls);
@@ -114,8 +115,8 @@ export class MakeupFormComponent implements OnInit {
   }
 
   submitPost() {
-    console.log(this.makeupForm.value);
-    console.log(this.imageUrlList);
+    this.postingService.submitPost(this.makeupForm.value, this.imageUrlList, this.makeupForm.value['itemType']);
+    // TODO: show loading page => show success page => navigate away to other page.
   }
 
 }

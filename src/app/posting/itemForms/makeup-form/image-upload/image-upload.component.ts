@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, ActionSheetController, Slides } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 
@@ -17,12 +16,12 @@ export class ImageUploadComponent implements OnInit {
   imageMaxAmount = 9;
   imageLoadedAmount = 0;
   images: string[] = [];
+  originImageUrlList: any[] = [];
 
 
   constructor(
     public modalController: ModalController,
     private camera: Camera,
-    private file: File,
     public actionSheetCtrl: ActionSheetController,
     private webView: WebView
   ) { }
@@ -32,7 +31,7 @@ export class ImageUploadComponent implements OnInit {
 
   dismissModal() {
     this.modalController.dismiss({
-      imageUrlList: this.images
+      imageUrlList: this.originImageUrlList
     });
     console.log('dismiss button was hit!!');
   }
@@ -104,6 +103,7 @@ export class ImageUploadComponent implements OnInit {
     this.camera.getPicture(options).then((imageData) => {
       const convertedUrl = this.webView.convertFileSrc(imageData);
       this.images.push(convertedUrl);
+      this.originImageUrlList.push(imageData);
       this.imageLoadedAmount++;
     },
       (err) => {
@@ -121,6 +121,7 @@ export class ImageUploadComponent implements OnInit {
     this.camera.getPicture(options).then(imageData => {
       const convertedUrl = this.webView.convertFileSrc(imageData);
       this.images.push(convertedUrl);
+      this.originImageUrlList.push(imageData);
       this.imageLoadedAmount++;
     },
       (err) => {

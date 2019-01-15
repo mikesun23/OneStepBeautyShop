@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import * as firebase from 'firebase';
-import { mapChildrenIntoArray } from '@angular/router/src/url_tree';
-import { map, switchMap } from 'rxjs/operators';
 import { File } from '@ionic-native/file/ngx';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubmitPostingService {
+export class SubmitPostingService implements OnInit {
+
+  private user: firebase.User;
 
   private storageRef = firebase.storage().ref();
 
@@ -17,29 +17,29 @@ export class SubmitPostingService {
 
   private storageBasePath = '/RootPost';
 
-  constructor(private db: AngularFireDatabase, private file: File) { }
+  constructor(private db: AngularFireDatabase, private file: File, private localStorage: Storage) { }
 
-  testCreatePost(itemPost) {
-    console.log('service page was hit!');
-
-    this.db.list('/testPost').push(itemPost);
+  async ngOnInit() {
+    this.user = await this.localStorage.get('localStoredUserId');
+    console.log(this.user);
   }
 
-  testGet() {
-    return this.db.list('/').snapshotChanges().pipe(
-      map(data => {
-        data.map(a => {
-          console.log(a.payload.val());
-        });
-      })
-    );
-  }
-
-  async submitPost(postObject: {}, imageList: string[], itemType: string) {
+  async submitPost(postObject: {}, imagePathUrlList: string[], itemType: string) {
     // TODO: need to come back use dynamic data once login/signup implemented
-    const userId = 'testMike'; // should be postObject['userId']
+    const userId = 'testMike0006688999'; // should be postObject['userId']
 
-    imageList.map(url => this.convertImageUrlToDataUrl(url));
+    const imageDataUrlList: {}[] = [];
+
+    // manually convert imagePath to imageDataUrl
+    for (const imageUrl of imagePathUrlList) {
+      const currentName = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
+      const correctPath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
+      const dataUrl = await this.file.readAsDataURL(correctPath, currentName);
+      imageDataUrlList.push({imageName: currentName, imageData: dataUrl});
+    }
+
+    // for some reason directly call the convertor function doesn't work out.
+    // const test = await imagePathUrlList.map(async x => await this.convertImageUrlToDataUrl(x));
 
     const imageDownloadUrl = [];
 
@@ -47,50 +47,40 @@ export class SubmitPostingService {
 
     const postKey = await this.databaseRef.child(dbUserPostsPath).push().key;
 
-
     let index = 0;
 
-    for (const i of imageList) {
-
-      const imagePath = this.storageBasePath + '/' + userId + '/' + postKey + '/images/' + i['name'];
-
+    for (const i of imageDataUrlList) {
+      const imagePath = this.storageBasePath + '/' + userId + '/' + postKey + '/images/' + i['imageName'];
       await this.storageRef.child(imagePath).putString(i['imageData'], 'data_url').then(async res => {
         await this.storageRef.child(imagePath).getDownloadURL().then(async url => {
           imageDownloadUrl.push(url);
           index += 1;
-          if (index === (imageList.length)) {
+          if (index === (imageDataUrlList.length)) {
             const updates = {};
             postObject['imageDownLoadUrl'] = imageDownloadUrl;
             updates[dbUserPostsPath + '/' + postKey] = postObject;
             await this.databaseRef.update(updates).then(async () => {
-              const blank = res;
-              // TODO: need to come back implement 'updateUser' function once login/signup implemented
-              // await this.updateUserWithNewPost(userId, postKey);
+              await this.updateUserWithNewPost(userId, postKey);
             });
-
           }
         });
       });
-
     }
   }
 
-  async convertImageUrlToDataUrl(imageUrl: string) {
+  // convert imageLocalUrl to dataUrl
+  async convertImageUrlToDataUrl(imageUrl: any) {
     const currentName = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
     const correctPath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
-    const res = await this.file.readAsDataURL(correctPath, currentName);
-    return res;
+    const dataUrl = await this.file.readAsDataURL(correctPath, currentName);
+    return { imageName: currentName, imageData: dataUrl };
   }
 
+  // update user data with new postId
   updateUserWithNewPost(userId: string, postKey: string) {
-    return '';
+    this.databaseRef.child('/users/firstGroup/' + userId + '/posts').push(postKey);
   }
 
-  testPostImage(imageUrl) {
-    firebase.storage().ref().child('/testPosts/').putString(imageUrl, 'data_url').then(res => {
-      console.log('uploaded image!');
-    });
-  }
 }
 
 /**

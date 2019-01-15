@@ -11,7 +11,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { File } from '@ionic-native/file/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
-
+import { IonicStorageModule } from '@ionic/storage';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -40,6 +40,7 @@ import { IntroductionSliderComponent } from './introduction-slider/introduction-
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
