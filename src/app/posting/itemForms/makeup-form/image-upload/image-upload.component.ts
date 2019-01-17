@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ModalController, ActionSheetController, Slides } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
@@ -10,7 +10,8 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
   styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnInit {
-
+  @Input() imageUrlList: string[];
+  @Input() imageOriginalUrlList: any[];
   @ViewChild(Slides) slides: Slides;
 
   imageMaxAmount = 9;
@@ -18,6 +19,7 @@ export class ImageUploadComponent implements OnInit {
   images: string[] = [];
   originImageUrlList: any[] = [];
 
+  checkInit = false;
 
   constructor(
     public modalController: ModalController,
@@ -27,11 +29,16 @@ export class ImageUploadComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.imageLoadedAmount = this.imageUrlList.length;
+    this.images = this.imageUrlList;
+    this.originImageUrlList = this.imageOriginalUrlList;
+    this.checkInit = true;
   }
 
   dismissModal() {
     this.modalController.dismiss({
-      imageUrlList: this.originImageUrlList
+      imageUrlList: this.images,
+      imageOriginalUrlList: this.originImageUrlList
     });
     console.log('dismiss button was hit!!');
   }

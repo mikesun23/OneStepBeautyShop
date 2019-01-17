@@ -25,8 +25,11 @@ export class IntroductionSliderComponent implements OnInit {
 
     try {
       await this.googlePlus.login({
+        // 'webClientId': '991993653440-gk1p5ua90q176sq25jbbdtmkgl58487k.apps.googleusercontent.com',
         'offline': true,
         'scopes': 'profile email'
+        // 'scopes': 'https://www.googleapis.com/auth/userinfo.email'
+
       }).then(res => {
         const token = res['idToken'];
         this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(token)).then(result => {

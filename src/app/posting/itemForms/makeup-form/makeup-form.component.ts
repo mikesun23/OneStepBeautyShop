@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemType } from '../../models/postingModel/common/ItemType';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 import { ModalController, LoadingController } from '@ionic/angular';
@@ -20,18 +20,28 @@ import { UploadingModalComponent } from './uploading-modal/uploading-modal.compo
 })
 export class MakeupFormComponent implements OnInit {
 
+  // itemType
   private itemTypeClass: ItemType = new ItemType();
 
+  // main FormGroup that gather all sub FormGroups
   makeupForm: FormGroup = new FormGroup({});
-  imageUrlList: string[] = [];
 
-  enableDetailInfo = false;
-  enableSellingInfo = false;
-  enableUploadImg = false;
+  // Sub FormGoups to pass to sub sections.
+  basicInfoForm: FormGroup;
+  detailInfoForm: FormGroup;
+  sellingInfoForm: FormGroup;
+  imageUrlList: string[] = [];
+  imageOriginalUrlList: any[] = [];
+
+  // section disable/enable
+  enableDetailInfo = true;
+  enableSellingInfo = true;
+  enableUploadImg = true;
   enableSubmitPost = false;
   enableSuccessMessage = false;
 
   constructor(
+    private fb: FormBuilder,
     public modalController: ModalController,
     private postingService: SubmitPostingService,
     private router: Router,
@@ -42,15 +52,50 @@ export class MakeupFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.basicInfoForm = this.fb.group({
+      itemBrand: ['', Validators.required],
+      itemName: ['', Validators.required],
+      itemNickName: [''],
+      itemCondition: ['', Validators.required],
+      priceAsNew: [''],
+      priceAsSell: ['', Validators.required],
+      haveReceipt: ['']
+    });
+
+    this.detailInfoForm = this.fb.group({
+      colorCode: [''],
+      capacityUnit: ['', Validators.required],
+      capacityAsSell: ['', Validators.required],
+      capacityAsNew: [''],
+      expDate: [''],
+      expDateNA: [''],
+      priceNegotiableLevel: ['', Validators.required],
+      briefDescription: ['']
+    });
+
+    this.sellingInfoForm = this.fb.group({
+      shippingCoverage: ['', Validators.required],
+      contactInfo: this.fb.group({
+        contactType: ['', Validators.required],
+        accountNumber: ['', Validators.required]
+      }),
+      itemAddress: this.fb.group({
+        city: [''],
+        state: ['']
+      })
+    });
   }
 
   async showBasicInfoModal() {
     const modal = await this.modalController.create({
       component: BasicInfoComponent,
-      componentProps: {}
+      componentProps: {
+        form: this.basicInfoForm
+      }
     });
 
     modal.onDidDismiss().then(res => {
+      this.basicInfoForm = res.data['resultForm'];
       const basicForm = res.data['resultForm'] as FormGroup;
       Object.keys(basicForm.controls).forEach(key => {
         if (this.makeupForm.controls[key]) {
@@ -67,10 +112,13 @@ export class MakeupFormComponent implements OnInit {
   async showDetailInfoModal() {
     const modal = await this.modalController.create({
       component: DetailInfoComponent,
-      componentProps: {}
+      componentProps: {
+        form: this.detailInfoForm
+      }
     });
 
     modal.onDidDismiss().then(res => {
+      this.detailInfoForm = res.data['resultForm'];
       const detailForm = res.data['resultForm'] as FormGroup;
       Object.keys(detailForm.controls).forEach(key => {
         if (this.makeupForm.controls[key]) {
@@ -86,21 +134,20 @@ export class MakeupFormComponent implements OnInit {
   async showSellingInfoModal() {
     const modal = await this.modalController.create({
       component: SellingInfoComponent,
-      componentProps: {}
+      componentProps: {
+        form: this.sellingInfoForm
+      }
     });
 
     modal.onDidDismiss().then(res => {
+      this.sellingInfoForm = res.data['resultForm'];
       const sellingForm = res.data['resultForm'] as FormGroup;
-      console.log(sellingForm);
       Object.keys(sellingForm.controls).forEach(key => {
-        console.log(key);
         if (this.makeupForm.controls[key]) {
-          console.log(key);
           this.makeupForm.controls[key] = sellingForm.controls[key];
           this.makeupForm.value[key] = sellingForm.controls[key].value;
         }
       });
-      console.log(this.makeupForm.value);
       this.enableUploadImg = true;
     });
 
@@ -110,11 +157,15 @@ export class MakeupFormComponent implements OnInit {
   async showImageUploadModal() {
     const modal = await this.modalController.create({
       component: ImageUploadComponent,
-      componentProps: {}
+      componentProps: {
+        imageUrlList: this.imageUrlList,
+        imageOriginalUrlList: this.imageOriginalUrlList
+      }
     });
 
     modal.onDidDismiss().then(res => {
       this.imageUrlList = res.data['imageUrlList'];
+      this.imageOriginalUrlList = res.data['imageOriginalUrlList'];
       this.enableSubmitPost = true;
     });
 
@@ -139,8 +190,13 @@ export class MakeupFormComponent implements OnInit {
   }
 
   async submitPost() {
+    const formData = {
+      basicInfo: this.basicInfoForm.value,
+      detailInfo: this.detailInfoForm,
+      sellingInfo: this.sellingInfoForm
+    };
     this.showLoadingModal().then(() => {
-      this.postingService.submitPost(this.makeupForm.value, this.imageUrlList, this.makeupForm.value['itemType']).then(() => {
+      this.postingService.submitPost(formData, this.imageOriginalUrlList, this.makeupForm.value['itemType']).then(() => {
 
         this.loadingController.dismiss();
         this.showLoadingSuccessMessageModal().then(() => {

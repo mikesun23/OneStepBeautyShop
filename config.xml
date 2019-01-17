@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.onestepbeautyshop" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ms.onestepbeautyshop" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -104,10 +104,10 @@
     </plugin>
     <allow-navigation href="http://10.0.0.66:8100" sessionid="c6cc65e2" />
     <allow-navigation href="*" />
-    <plugin name="cordova-plugin-googleplus" spec="^6.0.0">
-        <variable name="REVERSED_CLIENT_ID" value="com.ms.onestepbeautyshop" />
-    </plugin>
     <plugin name="cordova-sqlite-storage" spec="2.6.0" />
+    <plugin name="cordova-plugin-googleplus" spec="7.0.0">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.991993653440-gk1p5ua90q176sq25jbbdtmkgl58487k" />
+    </plugin>
     <engine name="android" spec="^7.1.4" />
     <engine name="ios" spec="4.5.5" />
 </widget>

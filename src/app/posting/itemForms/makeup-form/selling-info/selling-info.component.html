@@ -5,62 +5,72 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <form [formGroup]="sellingInfoForm">
+  <form *ngIf="checkInit" [formGroup]="sellingInfoForm">
     <ion-item>
-      <ion-label>Shipping Cost Coverage</ion-label>
-      <ion-select formControlName="shippingCoverage" [interfaceOptions]="shippingCostActionSheet" interface="action-sheet"
-        placeholder="Select One">
+      <ion-label color="pink">*Shipping Cost Coverage</ion-label>
+      <ion-select (ionChange)="shippingCostOnChange()" (ionCancel)="shippingCostOnCancel()" formControlName="shippingCoverage"
+        [interfaceOptions]="shippingCostActionSheet" interface="action-sheet" placeholder="Select One">
         <ion-select-option value="3">Full Coverage</ion-select-option>
         <ion-select-option value="2">Share/Half</ion-select-option>
         <ion-select-option value="1">No Coverage</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-text color="danger" *ngIf="shippingCoverage.touched && shippingCoverage.hasError('required')">
-      Shipping Coverage Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="shippingCostValidator">
+      <ion-label>Shipping Coverage Required!</ion-label>
+    </ion-chip>
 
     <div formGroupName="contactInfo">
       <ion-item>
-        <ion-label>Contact type</ion-label>
-        <ion-select formControlName="contactType" [interfaceOptions]="contactTypeActionSheet" interface="action-sheet" 
+        <ion-label color="lightblue">Contact type(optional)</ion-label>
+        <ion-select formControlName="contactType" [interfaceOptions]="contactTypeActionSheet" interface="action-sheet"
           placeholder="Select One">
           <ion-select-option value="wechat">WeChat</ion-select-option>
+          <ion-select-option value="phone">Cell Phone</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-text color="danger" *ngIf="contactType.touched && contactType.hasError('required')">
-        Contact Type Required!
-      </ion-text>
+
+      <div [ngSwitch]=contactType.value>
+
+        <ion-item *ngSwitchCase="'wechat'">
+          <ion-label color="lightblue" position="floating">Wechat Account ID/Name</ion-label>
+          <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngSwitchCase="'phone'">
+          <ion-label color="lightblue" position="floating">Phone Number</ion-label>
+          <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
+        </ion-item>
+        <ion-item *ngSwitchCase="''">
+          <ion-label color="lightblue">Contact Info</ion-label>
+          <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
+        </ion-item>
+      </div>
 
 
-      <ion-item>
-        <ion-label position="floating">Account Number</ion-label>
-        <ion-input formControlName="accountNumber" type="text"></ion-input>
-      </ion-item>
-      <ion-text color="danger" *ngIf="accountNumber.touched && accountNumber.hasError('required')">  
-        Account Number Required!
-      </ion-text>
     </div>
 
     <div formGroupName="itemAddress">
       <ion-item>
-        <ion-label position="floating">City</ion-label>
+        <ion-label color="lightblue" position="floating">City(optional)</ion-label>
         <ion-input formControlName="city" type="text"></ion-input>
       </ion-item>
-      <ion-text color="danger" *ngIf="city.touched && city.hasError('required')">
-        City Required!
-      </ion-text>
 
       <ion-item>
-        <ion-label>State</ion-label>
-        <ion-select formControlName="state" [interfaceOptions]="addressStateActionSheet" interface="action-sheet"
-          placeholder="Select One">
+        <ion-label color="pink">*State</ion-label>
+        <ion-select (ionChange)="addressStateOnChange()" (ionCancel)="addressStateOnCancel()" formControlName="state"
+          [interfaceOptions]="addressStateActionSheet" interface="action-sheet" placeholder="Select One">
           <ion-select-option [value]="state['key']" *ngFor="let state of allStates">{{state['value']}}</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-text color="danger" *ngIf="state.touched && state.hasError('required')">
-        State Required!
-      </ion-text>
+      <ion-chip color="danger" *ngIf="addressStateValidator">
+        <ion-label>State Required</ion-label>
+      </ion-chip>
     </div>
-    <ion-button (click)="dismissModal()">Next</ion-button>
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [attr.disabled]="shippingCoverage.value==='' || state.value===''" 
+    (click)="dismissModal()" fill="solid" expand="block" color="primary">Next</ion-button>
+  </ion-toolbar>
+</ion-footer>

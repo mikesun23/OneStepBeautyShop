@@ -4,10 +4,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen>
-  <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="solid" expand="full" color="primary" (click)="dismissModal()">
+<ion-content *ngIf="checkInit" fullscreen>
+  <!-- <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="solid" expand="full" color="primary" (click)="dismissModal()">
     Finished
-  </ion-button>
+  </ion-button> -->
+
+  <ion-grid>
+    <ion-row align-items-center>
+      <ion-col>
+        <ion-chip color="tertiary">
+          <ion-label>Min 1 image</ion-label>
+        </ion-chip>
+      </ion-col>
+      <ion-col size="2"></ion-col>
+      <ion-col size="2" align-self-center>
+        <ion-text>
+          <ion-text color="pink">{{imageLoadedAmount}}</ion-text> of <ion-text color="pink">{{imageMaxAmount}}</ion-text>
+        </ion-text>
+      </ion-col>
+      <ion-col size="2"></ion-col>
+      <ion-col>
+        <ion-chip color="tertiary">
+          <ion-label>Max 9 image</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 
   <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="outline" expand="full" color="primary" (click)="takePicture()">
     <ion-icon name="camera"></ion-icon>
@@ -34,6 +58,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button>Delete Photo</ion-button>
+    <ion-button [attr.disabled]="imageLoadedAmount<1" (click)="dismissModal()" fill="solid" expand="block" color="primary">Next</ion-button>
   </ion-toolbar>
 </ion-footer>

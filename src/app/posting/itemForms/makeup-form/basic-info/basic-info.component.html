@@ -6,34 +6,34 @@
 
 <ion-content fullscreen>
 
-  <form [formGroup]="basicInfoForm">
+  <form *ngIf="checkInit" [formGroup]="basicInfoForm">
 
 
     <ion-item>
-      <ion-label position="floating">Brand Name</ion-label>
+      <ion-label color="pink" position="floating">Brand Name*</ion-label>
       <ion-input formControlName="itemBrand" type="text"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="itemBrand.touched && itemBrand.hasError('required')">
-      Brand Name Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="itemBrand.touched && itemBrand.hasError('required')">
+      <ion-label>Brand Name Required!</ion-label>
+    </ion-chip>
 
     <ion-item>
-      <ion-label position="floating">Item Name</ion-label>
+      <ion-label color="pink" position="floating">Item Name*</ion-label>
       <ion-input formControlName="itemName" type="text"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="itemName.touched && itemName.hasError('required')">
-      Item Name Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="itemName.touched && itemName.hasError('required')">
+      <ion-label>Item Name Required!</ion-label>
+    </ion-chip>
 
     <ion-item>
-      <ion-label position="floating">Item Nick Name(optional)</ion-label>
+      <ion-label color="lightblue" position="floating">Item Nick Name(optional)</ion-label>
       <ion-input formControlName="itemNickName" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Item Condition</ion-label>
-      <ion-select formControlName="itemCondition" [interfaceOptions]="itemConditionActionSheet" interface="action-sheet"
-        placeholder="Select One">
+      <ion-label color="pink">Item Condition*</ion-label>
+      <ion-select (ionChange)="itemConditionOnChange()" (ionCancel)="itemConditionOnCancel()" formControlName="itemCondition"
+        [interfaceOptions]="itemConditionActionSheet" interface="action-sheet" placeholder="Select One" [selectedText]="itemConditionSelectedText">
         <ion-select-option value="10">New-Brand New(10/10)</ion-select-option>
         <ion-select-option value="8">Used-Like New(8/10)</ion-select-option>
         <ion-select-option value="6">Used-Very Good(6/10)</ion-select-option>
@@ -41,33 +41,48 @@
         <ion-select-option value="2">Used-Acceptible(2/10)</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-text color="danger" *ngIf="itemCondition.touched && itemCondition.hasError('required')">
-      Item Condition Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="itemConditionValidator">
+      <ion-label>Item Condition Required!</ion-label>
+    </ion-chip>
 
     <ion-item>
-      <ion-label position="floating">Price As New(optional)</ion-label>
+      <ion-label color="lightblue" position="floating">Price As New(optional)</ion-label>
       <ion-input formControlName="priceAsNew" type="number"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Selling Price</ion-label>
+      <ion-label color="pink" position="floating">Selling Price*</ion-label>
       <ion-input formControlName="priceAsSell" type="number"></ion-input>
     </ion-item>
-    <ion-text color="danger" *ngIf="priceAsSell.touched && priceAsSell.hasError('required')">
-      Selling Price Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="priceAsSell.touched && priceAsSell.value===''">
+      <ion-label>Selling Price Required!</ion-label>
+    </ion-chip>
+    <!-- <ion-text color="danger" *ngIf="priceAsSell.touched && (priceAsSell.value===null || priceAsSell.value===undefined)">
+      Invalid input! Selling Price is a number!
+    </ion-text> -->
 
     <ion-item>
-      <ion-label>Have Receipt(optional)</ion-label>
-      <ion-select formControlName="haveReceipt" [interfaceOptions]="haveReceiptActionSheet" interface="action-sheet"
-        placeholder="Select One">
-        <ion-select-option value="true">Yes, I have Receipt</ion-select-option>
-        <ion-select-option value="false">No, I don't have Receipt</ion-select-option>
+      <ion-label color="lightblue">Have Receipt(optional)</ion-label>
+      <ion-select (ionChange)="haveReceiptOnChange()" formControlName="haveReceipt" [interfaceOptions]="haveReceiptActionSheet"
+        interface="action-sheet" placeholder="Select One" [selectedText]=haveReceiptSelectedText>
+        <ion-select-option value="1">Yes, I have Receipt</ion-select-option>
+        <ion-select-option value="0">No, I don't have Receipt</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-button [disabled]="itemBrand.value==='' || itemName.value==='' || itemCondition.value==='' || priceAsSell.value===''" (click)="dismissModal()">Next</ion-button>
 
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [disabled]="
+      itemBrand.value==='' || 
+      itemName.value==='' || 
+      itemCondition.value==='' || 
+      priceAsSell.value==='' || 
+      priceAsSell.value===null || 
+      priceAsSell.value===undefined"
+      (click)="dismissModal()" fill="solid" expand="block" color="primary">Next</ion-button>
+  </ion-toolbar>
+</ion-footer>

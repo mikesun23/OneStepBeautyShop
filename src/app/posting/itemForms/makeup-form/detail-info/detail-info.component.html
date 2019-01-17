@@ -6,55 +6,75 @@
 
 <ion-content fullscreen>
 
-  <form [formGroup]="detailInfoForm">
+  <form *ngIf="checkInit" [formGroup]="detailInfoForm">
 
     <ion-item>
-      <ion-label position="floating">Color/Code(optional)</ion-label>
-      <ion-input formControlName="colorCode" type="text"></ion-input>
+      <ion-label color="lightblue" position="floating">Color Name/Code(optional)</ion-label>
+      <ion-input formControlName="colorCode" accept="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Capacity Left(.est ml)</ion-label>
-      <ion-input formControlName="capacityAsSell" type="number"></ion-input>
+      <ion-label color="pink">*Capacity Unit</ion-label>
+      <ion-select (ionChange)="capacityUnitSelected()" (ionCancel)="capacityUnitCancelled()" formControlName="capacityUnit"
+        [interfaceOptions]="capacityUnitActionSheet" interface="action-sheet" placeholder="Select Unit" [selectedText]="capacityUnit.value">
+        <ion-select-option value="g">Weight: gram/g</ion-select-option>
+        <ion-select-option value="ml">Volume: mliter/ml</ion-select-option>
+      </ion-select>
     </ion-item>
-    <ion-text color="danger" *ngIf="capacityAsSell.touched && capacityAsSell.hasError('required')">
-      Capacity Left Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="capacityUnitTouched">
+      <ion-label>Capacity Unit Required!</ion-label>
+    </ion-chip>
 
     <ion-item>
-      <ion-label position="floating">Capacity As New(ml)</ion-label>
-      <ion-input formControlName="capacityAsNew" type="number"></ion-input>
+      <ion-label color="pink" position="floating">*Capacity Left: {{capacityUnitAbr}}</ion-label>
+      <ion-input [attr.disabled]="capacityUnit.value===''" formControlName="capacityAsSell" type="number"></ion-input>
+    </ion-item>
+    <ion-chip color="danger" *ngIf="capacityAsSell.touched && (capacityAsSell.value==='' || capacityAsSell.value===null || capacityAsSell.value===undefined)">
+      <ion-label>Capacity Left Required!</ion-label>
+    </ion-chip>
+
+    <ion-item>
+      <ion-label color="lightblue" position="floating">Capacity As New: {{capacityUnitAbr}}(optional)</ion-label>
+      <ion-input [attr.disabled]="capacityUnit.value===''" formControlName="capacityAsNew" type="number"></ion-input>
     </ion-item>
 
-    <ion-item [disabled]="expDateNA.value===true">
-      <ion-label>Expiration Date</ion-label>
+    <ion-item [attr.disabled]="expDateNA.value===true">
+      <ion-label color="lightblue">Expiration Date(optional)</ion-label>
       <ion-datetime formControlName="expDate" display-format="MM/DD/YYYY"></ion-datetime>
     </ion-item>
 
     <ion-item>
-      <ion-label>Expiration Date Not Available</ion-label>
+      <ion-label color="lightblue">Expiration Date Not Available(optional)</ion-label>
       <ion-checkbox formControlName="expDateNA" color="dark"></ion-checkbox>
     </ion-item>
 
-
-
     <ion-item>
-      <ion-label>Price Cut Level</ion-label>
-      <ion-select formControlName="priceNegotiableLevel" [interfaceOptions]="priceCutLevelActionSheet" interface="action-sheet"
-        placeholder="Select One">
+      <ion-label color="pink">*Price Cut Level</ion-label>
+      <ion-select (ionCancel)="priceNegoCancelled()" formControlName="priceNegotiableLevel" [interfaceOptions]="priceCutLevelActionSheet"
+        interface="action-sheet" placeholder="Select One" (ionChange)="priceNegotiableSelectedText()" [selectedText]="priceNegotiableText">
         <ion-select-option value="3">No Chop(won't drop price)</ion-select-option>
         <ion-select-option value="2">Little Chop(some drop on price)</ion-select-option>
         <ion-select-option value="1">Depends(highle depends on mood?)</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-text color="danger" *ngIf="priceNegotiableLevel.touched && priceNegotiableLevel.hasError('required')">
-      Price Cut Level Required!
-    </ion-text>
+    <ion-chip color="danger" *ngIf="priceNegoTouched">
+      <ion-label>Price Cut Level Required!</ion-label>
+    </ion-chip>
 
     <ion-item>
-      <ion-textarea formControlName="briefDescription" placeholder="Description: why you sell? what is good for? ..."></ion-textarea>
+      <ion-textarea rows="4" formControlName="briefDescription" placeholder="(optional)Description: why you sell? what is it good for? ..."></ion-textarea>
     </ion-item>
-
-    <ion-button (click)="dismissModal()">Next</ion-button>
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button [attr.disabled]="
+      capacityUnit.value==='' || 
+      capacityAsSell.value==='' ||
+      capacityAsSell.value===null ||
+      capacityAsSell.value===undefined || 
+      priceNegotiableLevel.value===''"
+      (click)="dismissModal()" fill="solid" expand="block" color="primary">Next</ion-button>
+  </ion-toolbar>
+</ion-footer>

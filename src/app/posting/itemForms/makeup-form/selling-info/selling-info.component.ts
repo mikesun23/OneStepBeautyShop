@@ -1,5 +1,5 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FiftyStates } from 'src/app/common/us_states';
 
@@ -9,6 +9,7 @@ import { FiftyStates } from 'src/app/common/us_states';
   styleUrls: ['./selling-info.component.scss']
 })
 export class SellingInfoComponent implements OnInit {
+  @Input() form: FormGroup;
 
   shippingCostActionSheet: any = {
     header: 'Shipping Cost Coverage',
@@ -17,32 +18,40 @@ export class SellingInfoComponent implements OnInit {
 
   contactTypeActionSheet: any = {
     header: 'Contact Type',
-    subHeader: 'Will be more kinds shortly'
+    subHeader: 'Will be more types shortly'
   };
 
   addressStateActionSheet: any = {
     header: 'State'
   };
 
+  shippingCostValidator = false;
+
+  addressStateValidator = false;
+
   allStates: {}[] = new FiftyStates().getAll();
 
   sellingInfoForm: FormGroup;
 
+  checkInit = false;
+
   constructor(public modalController: ModalController, private fb: FormBuilder) {
-    this.sellingInfoForm = this.fb.group({
-      shippingCoverage: ['', Validators.required],
-      contactInfo: this.fb.group({
-        contactType: ['', Validators.required],
-        accountNumber: ['', Validators.required]
-      }),
-      itemAddress: this.fb.group({
-        city: [''],
-        state: ['']
-      })
-    });
+    // this.sellingInfoForm = this.fb.group({
+    //   shippingCoverage: ['', Validators.required],
+    //   contactInfo: this.fb.group({
+    //     contactType: ['', Validators.required],
+    //     accountNumber: ['', Validators.required]
+    //   }),
+    //   itemAddress: this.fb.group({
+    //     city: [''],
+    //     state: ['']
+    //   })
+    // });
   }
 
   ngOnInit() {
+    this.sellingInfoForm = this.form;
+    this.checkInit = true;
   }
 
   get shippingCoverage() { return this.sellingInfoForm.get('shippingCoverage'); }
@@ -56,6 +65,30 @@ export class SellingInfoComponent implements OnInit {
       resultForm: this.sellingInfoForm
     });
     console.log('dismiss button was hit!!');
+  }
+
+  shippingCostOnChange() {
+    if (this.shippingCoverage.value !== '') {
+      this.shippingCostValidator = false;
+    }
+  }
+
+  shippingCostOnCancel() {
+    if (this.shippingCoverage.value === '') {
+      this.shippingCostValidator = true;
+    }
+  }
+
+  addressStateOnChange() {
+    if (this.state.value !== '') {
+      this.addressStateValidator = false;
+    }
+  }
+
+  addressStateOnCancel() {
+    if (this.state.value === '') {
+      this.addressStateValidator = true;
+    }
   }
 
 }
