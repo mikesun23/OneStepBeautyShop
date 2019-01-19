@@ -21,11 +21,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TabsPageModule } from './tabs/tabs.module';
-import { PostingPageModule } from './posting/posting.module';
-import { BasicInfoComponent } from './posting/itemForms/makeup-form/basic-info/basic-info.component';
-import { DetailInfoComponent } from './posting/itemForms/makeup-form/detail-info/detail-info.component';
-import { SellingInfoComponent } from './posting/itemForms/makeup-form/selling-info/selling-info.component';
-import { ImageUploadComponent } from './posting/itemForms/makeup-form/image-upload/image-upload.component';
 import { IntroductionSliderComponent } from './introduction-slider/introduction-slider.component';
 import { SubmitPostingService } from './posting/services/submitPost/submit-posting.service';
 
@@ -33,10 +28,7 @@ import { SubmitPostingService } from './posting/services/submitPost/submit-posti
 @NgModule({
   declarations: [AppComponent, IntroductionSliderComponent],
   entryComponents: [
-    BasicInfoComponent,
-    DetailInfoComponent,
-    SellingInfoComponent,
-    ImageUploadComponent
+
   ],
   imports: [
     BrowserModule,
@@ -49,7 +41,6 @@ import { SubmitPostingService } from './posting/services/submitPost/submit-posti
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     TabsPageModule,
-    PostingPageModule
   ],
   providers: [
     StatusBar,

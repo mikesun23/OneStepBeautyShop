@@ -5,9 +5,6 @@
 </ion-header>
 
 <ion-content *ngIf="checkInit" fullscreen>
-  <!-- <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="solid" expand="full" color="primary" (click)="dismissModal()">
-    Finished
-  </ion-button> -->
 
   <ion-grid>
     <ion-row align-items-center>
@@ -19,7 +16,9 @@
       <ion-col size="2"></ion-col>
       <ion-col size="2" align-self-center>
         <ion-text>
-          <ion-text color="pink">{{imageLoadedAmount}}</ion-text> of <ion-text color="pink">{{imageMaxAmount}}</ion-text>
+          <ion-text color="tertiary">{{imageLoadedAmount}}</ion-text>
+          <ion-text color="tertiary"> of </ion-text>
+          <ion-text color="tertiary">{{imageMaxAmount}}</ion-text>
         </ion-text>
       </ion-col>
       <ion-col size="2"></ion-col>
@@ -31,8 +30,6 @@
     </ion-row>
   </ion-grid>
 
-
-
   <ion-button [disabled]="!(imageLoadedAmount<imageMaxAmount)" fill="outline" expand="full" color="primary" (click)="takePicture()">
     <ion-icon name="camera"></ion-icon>
     Take Photo
@@ -43,17 +40,23 @@
     Load Photo
   </ion-button>
 
-  <p>{{testIamge}}</p>
-
-
-
-
-  <ion-slides *ngIf="images.length>0" #previewSlides pager="true">
-    <ion-slide (click)="imageDeleteActionSheet()" *ngFor="let image of images">
-      <ion-img [src]="image"></ion-img>
+  <ion-slides *ngIf="images.length>0" #previewSlides pager="false">
+    <ion-slide *ngFor="let image of images; let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-img [src]="image"></ion-img>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="setFirstImage()" [fill]="i===firstImageIndex ? 'solid' : 'outline'" expand="block"
+              [color]="i===firstImageIndex ? 'pink' : 'tertiary'">
+              {{i===firstImageIndex ? firstImageText : otherImageText}}</ion-button>
+            <ion-button (click)="imageDeleteActionSheet()" fill="solid" expand="block" color="tertiary">Delete Image</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-slide>
   </ion-slides>
-
 
 </ion-content>
 <ion-footer>

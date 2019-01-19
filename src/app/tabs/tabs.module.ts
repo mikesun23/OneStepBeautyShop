@@ -11,7 +11,6 @@ import { AboutPageModule } from '../about/about.module';
 import { HomePageModule } from '../home/home.module';
 import { PostingPageModule } from './../posting/posting.module';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
-import { UploadingModalComponent } from '../posting/itemForms/makeup-form/uploading-modal/uploading-modal.component';
 
 @NgModule({
   imports: [
@@ -22,9 +21,15 @@ import { UploadingModalComponent } from '../posting/itemForms/makeup-form/upload
     HomePageModule,
     AboutPageModule,
     ContactPageModule,
-    PostingPageModule,
+    PostingPageModule
 
   ],
-  declarations: [TabsPage, LoginModalComponent, UploadingModalComponent]
+  entryComponents: [
+    LoginModalComponent
+  ],
+  declarations: [
+    TabsPage,
+    LoginModalComponent
+  ]
 })
 export class TabsPageModule { }

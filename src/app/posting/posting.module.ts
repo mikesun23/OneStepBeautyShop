@@ -22,13 +22,19 @@ import { SellingInfoComponent } from './itemForms/makeup-form/selling-info/selli
     ReactiveFormsModule,
     IonicModule,
   ],
+  entryComponents: [
+    BasicInfoComponent,
+    DetailInfoComponent,
+    SellingInfoComponent,
+    ImageUploadComponent,
+  ],
   declarations: [
     PostingPage,
     MakeupFormComponent,
     BasicInfoComponent,
     DetailInfoComponent,
     ImageUploadComponent,
-    SellingInfoComponent
+    SellingInfoComponent,
   ],
   providers: [
     PhotoLibrary,

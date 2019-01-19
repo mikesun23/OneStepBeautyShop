@@ -25,6 +25,7 @@ export class SubmitPostingService {
       const user = await this.localStorage.get('localStoredUser');
 
       const userId = user['uid']; // should be postObject['userId']
+      console.log(userId);
 
       const imageDataUrlList: {}[] = [];
 

@@ -8,65 +8,77 @@
 </ion-header>
 
 <ion-content>
+
   <ion-grid>
 
     <ion-row align-items-center>
-      <ion-col size="3"></ion-col>
-      <ion-col align-self-center>
-        <ion-button (click)="showBasicInfoModal()">Basic Information</ion-button>
+      <ion-col>
+        <ion-button (click)="showBasicInfoModal()" fill="solid" expand="block" [color]="!basicButtonColorToggle ? 'lightblue' : 'pink'">Basic
+          Information</ion-button>
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col size="5"></ion-col>
-      <ion-col>
+      <ion-col size="1">
         <ion-icon name="arrow-round-down"></ion-icon>
-      </ion-col>
-    </ion-row>
-
-    <ion-row align-items-center>
-      <ion-col size="3"></ion-col>
-      <ion-col align-self-center>
-        <ion-button [disabled]="!enableDetailInfo" (click)="showDetailInfoModal()">Detail Information</ion-button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="5"></ion-col>
-      <ion-col>
-        <ion-icon name="arrow-round-down"></ion-icon>
-      </ion-col>
-    </ion-row>
-
-    <ion-row align-items-center>
-      <ion-col size="3"></ion-col>
-      <ion-col align-self-center>
-        <ion-button [disabled]="!enableSellingInfo" (click)="showSellingInfoModal()">Selling Information</ion-button>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="5"></ion-col>
-      <ion-col>
-        <ion-icon name="arrow-round-down"></ion-icon>
-      </ion-col>
-    </ion-row>
-
-    <ion-row align-items-center>
-      <ion-col size="3"></ion-col>
-      <ion-col align-self-center>
-        <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()">Upload Image</ion-button>
       </ion-col>
       <ion-col></ion-col>
     </ion-row>
 
     <ion-row align-items-center>
-      <ion-col size="3"></ion-col>
       <ion-col align-self-center>
-        <ion-button [disabled]="!(enableDetailInfo && enableSellingInfo && enableUploadImg && enableSubmitPost)" (click)="submitPost()">Submit it!</ion-button>
+        <ion-button [disabled]="!enableDetailInfo" (click)="showDetailInfoModal()" fill="solid" expand="block" [color]="!detailButtonColorToggle ? 'lightblue' : 'pink'">
+          Detail Information</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="5"></ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-round-down"></ion-icon>
       </ion-col>
       <ion-col></ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-button [disabled]="!enableSellingInfo" (click)="showSellingInfoModal()" fill="solid" expand="block"
+          [color]="!sellingButtonColorToggle ? 'lightblue' : 'pink'">
+          Selling Information</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="5"></ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()" fill="solid" expand="block" [color]="!imageButtonColorToggle ? 'lightblue' : 'pink'">
+          Upload Image</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="5"></ion-col>
+      <ion-col size="1">
+        <ion-icon name="arrow-round-down"></ion-icon>
+      </ion-col>
+      <ion-col></ion-col>
+    </ion-row>
+
+    <ion-row align-items-center>
+      <ion-col align-self-center>
+        <ion-button [disabled]="!(enableDetailInfo && enableSellingInfo && enableUploadImg && enableSubmitPost)"
+        fill="solid" expand="block" color="pink" (click)="submitPost()">Submit it!</ion-button>
+      </ion-col>
     </ion-row>
 
   </ion-grid>
+  
 </ion-content>

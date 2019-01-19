@@ -19,6 +19,10 @@ export class ImageUploadComponent implements OnInit {
   images: string[] = [];
   originImageUrlList: any[] = [];
 
+  firstImageIndex = 0;
+  firstImageText = 'First Shown Image';
+  otherImageText = 'Set As First';
+
   checkInit = false;
 
   constructor(
@@ -86,6 +90,11 @@ export class ImageUploadComponent implements OnInit {
       ]
     });
     await actionSheet.present();
+  }
+
+  async setFirstImage() {
+    const index: number = await this.slides.getActiveIndex().then(res => res);
+    this.firstImageIndex = index;
   }
 
   setCameraOptions(srcType: number) {

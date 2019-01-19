@@ -3,14 +3,13 @@ import { ItemType } from '../../models/postingModel/common/ItemType';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController, LoadingController, PickerController, ToastController } from '@ionic/angular';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { DetailInfoComponent } from './detail-info/detail-info.component';
 import { SellingInfoComponent } from './selling-info/selling-info.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { SubmitPostingService } from '../../services/submitPost/submit-posting.service';
 import { Router } from '@angular/router';
-import { UploadingModalComponent } from './uploading-modal/uploading-modal.component';
 
 
 @Component({
@@ -34,18 +33,24 @@ export class MakeupFormComponent implements OnInit {
   imageOriginalUrlList: any[] = [];
 
   // section disable/enable
-  enableDetailInfo = true;
-  enableSellingInfo = true;
-  enableUploadImg = true;
+  enableDetailInfo = false;
+  enableSellingInfo = false;
+  enableUploadImg = false;
   enableSubmitPost = false;
   enableSuccessMessage = false;
+
+  basicButtonColorToggle = false;
+  detailButtonColorToggle = false;
+  sellingButtonColorToggle = false;
+  imageButtonColorToggle = false;
 
   constructor(
     private fb: FormBuilder,
     public modalController: ModalController,
     private postingService: SubmitPostingService,
     private router: Router,
-    public loadingController: LoadingController) {
+    public loadingController: LoadingController,
+    public toastController: ToastController) {
 
     this.makeupForm = this.itemTypeClass.initItemForm('makeup');
     this.makeupForm.value['itemType'] = 'makeup';
@@ -95,6 +100,7 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
+      this.basicButtonColorToggle = true;
       this.basicInfoForm = res.data['resultForm'];
       const basicForm = res.data['resultForm'] as FormGroup;
       Object.keys(basicForm.controls).forEach(key => {
@@ -118,6 +124,7 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
+      this.detailButtonColorToggle = true;
       this.detailInfoForm = res.data['resultForm'];
       const detailForm = res.data['resultForm'] as FormGroup;
       Object.keys(detailForm.controls).forEach(key => {
@@ -140,6 +147,7 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
+      this.sellingButtonColorToggle = true;
       this.sellingInfoForm = res.data['resultForm'];
       const sellingForm = res.data['resultForm'] as FormGroup;
       Object.keys(sellingForm.controls).forEach(key => {
@@ -164,6 +172,7 @@ export class MakeupFormComponent implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
+      this.imageButtonColorToggle = true;
       this.imageUrlList = res.data['imageUrlList'];
       this.imageOriginalUrlList = res.data['imageOriginalUrlList'];
       this.enableSubmitPost = true;
@@ -174,38 +183,40 @@ export class MakeupFormComponent implements OnInit {
 
   async showLoadingModal() {
     const modal = await this.loadingController.create({
-      message: 'Uploading...'
+      message: 'Uploading...May Need 1 Min'
     });
 
     return await modal.present();
   }
 
-  async showLoadingSuccessMessageModal() {
-    const modal = await this.modalController.create({
-      component: UploadingModalComponent,
-      componentProps: {}
+  async showPostSuccessToast() {
+    const toast = await this.toastController.create({
+      message: 'Post Uploaded!!',
+      showCloseButton: true,
+      position: 'middle',
+      mode: 'ios',
+      duration: 3500,
+      color: 'lightblur'
     });
-
-    return await modal.present();
+    toast.present();
   }
+
 
   async submitPost() {
     const formData = {
       basicInfo: this.basicInfoForm.value,
-      detailInfo: this.detailInfoForm,
-      sellingInfo: this.sellingInfoForm
+      detailInfo: this.detailInfoForm.value,
+      sellingInfo: this.sellingInfoForm.value
     };
     this.showLoadingModal().then(() => {
       this.postingService.submitPost(formData, this.imageOriginalUrlList, this.makeupForm.value['itemType']).then(() => {
-
-        this.loadingController.dismiss();
-        this.showLoadingSuccessMessageModal().then(() => {
-          setTimeout(() => {
-            this.modalController.dismiss();
-          }, 1500);
-        });
-        this.router.navigateByUrl('/');
+        this.showPostSuccessToast();
       });
+      setTimeout(() => {
+        this.loadingController.dismiss();
+      }, 1500);
+
+      this.router.navigateByUrl('/');
     });
   }
 
