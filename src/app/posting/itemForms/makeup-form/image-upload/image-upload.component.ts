@@ -12,6 +12,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 export class ImageUploadComponent implements OnInit {
   @Input() imageUrlList: string[];
   @Input() imageOriginalUrlList: any[];
+  @Input() titleImageIndex: number;
   @ViewChild(Slides) slides: Slides;
 
   imageMaxAmount = 9;
@@ -35,6 +36,7 @@ export class ImageUploadComponent implements OnInit {
   ngOnInit() {
     this.imageLoadedAmount = this.imageUrlList.length;
     this.images = this.imageUrlList;
+    this.firstImageIndex = this.titleImageIndex;
     this.originImageUrlList = this.imageOriginalUrlList;
     this.checkInit = true;
   }
@@ -42,7 +44,8 @@ export class ImageUploadComponent implements OnInit {
   dismissModal() {
     this.modalController.dismiss({
       imageUrlList: this.images,
-      imageOriginalUrlList: this.originImageUrlList
+      imageOriginalUrlList: this.originImageUrlList,
+      titleImageIndex: this.firstImageIndex
     });
     console.log('dismiss button was hit!!');
   }
@@ -60,21 +63,21 @@ export class ImageUploadComponent implements OnInit {
               this.actionSheetCtrl.dismiss().then(res => {
                 this.imageLoadedAmount--;
                 if (index > 0) {
-                  this.slides.slideTo(0).then(suc => {
-                    this.images.splice(index, 1);
-                    this.slides.update();
-                  });
+                  this.images.splice(index, 1);
+                  this.originImageUrlList.splice(index, 1);
+                  this.slides.update();
                 } else {
                   if (this.images.length > 1) {
-                    this.slides.slideTo(0).then (suc => {
-                      this.images.splice(index, 1);
-                      this.slides.update();
-                    });
+                    this.originImageUrlList.splice(index, 1);
+                    this.images.splice(index, 1);
+                    this.slides.update();
                   } else {
+                    this.originImageUrlList.splice(index, 1);
                     this.images.splice(index, 1);
                     this.slides.update();
                   }
                 }
+                console.log('deleting image: ' + this.images);
               });
             }
           }
@@ -99,7 +102,7 @@ export class ImageUploadComponent implements OnInit {
 
   setCameraOptions(srcType: number) {
     const options = {
-      quality: 100,
+      quality: 56,
       destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: srcType,
       allowEdit: false,
@@ -116,11 +119,12 @@ export class ImageUploadComponent implements OnInit {
   takePicture() {
     const srcType = this.camera.PictureSourceType.CAMERA;
     const options: CameraOptions = this.setCameraOptions(srcType);
-    this.camera.getPicture(options).then((imageData) => {
+    this.camera.getPicture(options).then(imageData => {
       const convertedUrl = this.webView.convertFileSrc(imageData);
       this.images.push(convertedUrl);
       this.originImageUrlList.push(imageData);
       this.imageLoadedAmount++;
+      this.slideToLatest();
     },
       (err) => {
         // Handle error
@@ -139,12 +143,21 @@ export class ImageUploadComponent implements OnInit {
       this.images.push(convertedUrl);
       this.originImageUrlList.push(imageData);
       this.imageLoadedAmount++;
+      this.slideToLatest();
     },
       (err) => {
         setTimeout(() => {
           alert(err);
         });
       });
+  }
+
+  slideToLatest() {
+    console.log('image loaded');
+    setTimeout(async () => {
+      const index = await this.slides.length();
+      this.slides.slideTo(index);
+    }, 860);
   }
 
   // copyFileToDirectory(namePath: string, currentName: string) {

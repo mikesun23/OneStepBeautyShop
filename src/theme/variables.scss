@@ -93,13 +93,22 @@
     --ion-color-tint: #ffb6c1;
   }
 
-  .ion-color-lightblue {
+  .ion-color-lightBlue {
     --ion-color-base: #66d9ff;
     --ion-color-base-rgb: 102, 217, 255;
     --ion-color-contrast: #ffffff;
     --ion-color-contrast-rgb: 255, 255, 255;
     --ion-color-shade: #4dd2ff;
     --ion-color-tint: #99e6ff;
+  }
+
+  .ion-color-shinGreen {
+    --ion-color-base: #99ffbb;
+    --ion-color-base-rgb: 77, 255, 77;
+    --ion-color-contrast: #ffffff;
+    --ion-color-contrast-rgb: 255, 255, 255;
+    --ion-color-shade: #66ff99;
+    --ion-color-tint: #ccffdd;
   }
 
 

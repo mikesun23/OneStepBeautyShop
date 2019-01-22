@@ -31,13 +31,14 @@ export class MakeupFormComponent implements OnInit {
   sellingInfoForm: FormGroup;
   imageUrlList: string[] = [];
   imageOriginalUrlList: any[] = [];
+  titleImageIndex = 0;
 
   // section disable/enable
+  enableBasicInfo = true;
   enableDetailInfo = false;
   enableSellingInfo = false;
   enableUploadImg = false;
   enableSubmitPost = false;
-  enableSuccessMessage = false;
 
   basicButtonColorToggle = false;
   detailButtonColorToggle = false;
@@ -167,7 +168,8 @@ export class MakeupFormComponent implements OnInit {
       component: ImageUploadComponent,
       componentProps: {
         imageUrlList: this.imageUrlList,
-        imageOriginalUrlList: this.imageOriginalUrlList
+        imageOriginalUrlList: this.imageOriginalUrlList,
+        titleImageIndex: this.titleImageIndex
       }
     });
 
@@ -175,6 +177,7 @@ export class MakeupFormComponent implements OnInit {
       this.imageButtonColorToggle = true;
       this.imageUrlList = res.data['imageUrlList'];
       this.imageOriginalUrlList = res.data['imageOriginalUrlList'];
+      this.titleImageIndex = res.data['titleImageIndex'];
       this.enableSubmitPost = true;
     });
 
@@ -196,7 +199,7 @@ export class MakeupFormComponent implements OnInit {
       position: 'middle',
       mode: 'ios',
       duration: 3500,
-      color: 'lightblur'
+      color: 'lightBlue'
     });
     toast.present();
   }
@@ -208,8 +211,11 @@ export class MakeupFormComponent implements OnInit {
       detailInfo: this.detailInfoForm.value,
       sellingInfo: this.sellingInfoForm.value
     };
+    this.disableAllButtons();
     this.showLoadingModal().then(() => {
-      this.postingService.submitPost(formData, this.imageOriginalUrlList, this.makeupForm.value['itemType']).then(() => {
+      this.postingService.submitPost(formData, this.imageOriginalUrlList, this.titleImageIndex, this.makeupForm.value['itemType'])
+      .then(() => {
+        this.resetAllForm();
         this.showPostSuccessToast();
       });
       setTimeout(() => {
@@ -218,6 +224,33 @@ export class MakeupFormComponent implements OnInit {
 
       this.router.navigateByUrl('/');
     });
+  }
+
+  resetAllForm() {
+    this.basicInfoForm.reset();
+    this.detailInfoForm.reset();
+    this.sellingInfoForm.reset();
+    this.imageOriginalUrlList = [];
+    this.imageUrlList = [];
+
+    this.enableBasicInfo = true;
+    this.enableDetailInfo = false;
+    this.enableSellingInfo = false;
+    this.enableUploadImg = false;
+    this.enableSubmitPost = false;
+
+    this.basicButtonColorToggle = false;
+    this.detailButtonColorToggle = false;
+    this.sellingButtonColorToggle = false;
+    this.imageButtonColorToggle = false;
+  }
+
+  disableAllButtons() {
+    this.enableBasicInfo = false;
+    this.enableDetailInfo = false;
+    this.enableSellingInfo = false;
+    this.enableUploadImg = false;
+    this.enableSubmitPost = false;
   }
 
 }

@@ -26,7 +26,7 @@
     </ion-chip>
 
     <ion-item>
-      <ion-label color="lightblue" position="floating">Item Nick Name(optional)</ion-label>
+      <ion-label color="lightBlue" position="floating">Item Nick Name(optional)</ion-label>
       <ion-input formControlName="itemNickName" type="text"></ion-input>
     </ion-item>
 
@@ -46,7 +46,7 @@
     </ion-chip>
 
     <ion-item>
-      <ion-label color="lightblue" position="floating">Price As New(optional)</ion-label>
+      <ion-label color="lightBlue" position="floating">Price As New(optional)</ion-label>
       <ion-input formControlName="priceAsNew" type="number"></ion-input>
     </ion-item>
 
@@ -62,7 +62,7 @@
     </ion-text> -->
 
     <ion-item>
-      <ion-label color="lightblue">Have Receipt(optional)</ion-label>
+      <ion-label color="lightBlue">Have Receipt(optional)</ion-label>
       <ion-select (ionChange)="haveReceiptOnChange()" formControlName="haveReceipt" [interfaceOptions]="haveReceiptActionSheet"
         interface="action-sheet" placeholder="Select One" [selectedText]=haveReceiptSelectedText>
         <ion-select-option value="1">Yes, I have Receipt</ion-select-option>

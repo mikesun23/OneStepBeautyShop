@@ -21,7 +21,7 @@
 
     <div formGroupName="contactInfo">
       <ion-item>
-        <ion-label color="lightblue">Contact type(optional)</ion-label>
+        <ion-label color="lightBlue">Contact type(optional)</ion-label>
         <ion-select formControlName="contactType" [interfaceOptions]="contactTypeActionSheet" interface="action-sheet"
           placeholder="Select One">
           <ion-select-option value="wechat">WeChat</ion-select-option>
@@ -32,15 +32,15 @@
       <div [ngSwitch]=contactType.value>
 
         <ion-item *ngSwitchCase="'wechat'">
-          <ion-label color="lightblue" position="floating">Wechat Account ID/Name</ion-label>
+          <ion-label color="lightBlue" position="floating">Wechat Account ID/Name</ion-label>
           <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
         </ion-item>
         <ion-item *ngSwitchCase="'phone'">
-          <ion-label color="lightblue" position="floating">Phone Number</ion-label>
+          <ion-label color="lightBlue" position="floating">Phone Number</ion-label>
           <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
         </ion-item>
         <ion-item *ngSwitchCase="''">
-          <ion-label color="lightblue">Contact Info</ion-label>
+          <ion-label color="lightBlue">Contact Info</ion-label>
           <ion-input [attr.disabled]="contactType.value===''" formControlName="accountNumber" type="text"></ion-input>
         </ion-item>
       </div>
@@ -50,7 +50,7 @@
 
     <div formGroupName="itemAddress">
       <ion-item>
-        <ion-label color="lightblue" position="floating">City(optional)</ion-label>
+        <ion-label color="lightBlue" position="floating">City(optional)</ion-label>
         <ion-input formControlName="city" type="text"></ion-input>
       </ion-item>
 

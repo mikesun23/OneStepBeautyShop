@@ -9,7 +9,7 @@
   <form *ngIf="checkInit" [formGroup]="detailInfoForm">
 
     <ion-item>
-      <ion-label color="lightblue" position="floating">Color Name/Code(optional)</ion-label>
+      <ion-label color="lightBlue" position="floating">Color Name/Code(optional)</ion-label>
       <ion-input formControlName="colorCode" accept="text"></ion-input>
     </ion-item>
 
@@ -34,17 +34,17 @@
     </ion-chip>
 
     <ion-item>
-      <ion-label color="lightblue" position="floating">Capacity As New: {{capacityUnitAbr}}(optional)</ion-label>
+      <ion-label color="lightBlue" position="floating">Capacity As New: {{capacityUnitAbr}}(optional)</ion-label>
       <ion-input [attr.disabled]="capacityUnit.value===''" formControlName="capacityAsNew" type="number"></ion-input>
     </ion-item>
 
     <ion-item [attr.disabled]="expDateNA.value===true">
-      <ion-label color="lightblue">Expiration Date(optional)</ion-label>
+      <ion-label color="lightBlue">Expiration Date(optional)</ion-label>
       <ion-datetime formControlName="expDate" display-format="MM/DD/YYYY" min="2016" max="2025-12-31"></ion-datetime>
     </ion-item>
 
     <ion-item>
-      <ion-label color="lightblue">Expiration Date Not Available(optional)</ion-label>
+      <ion-label color="lightBlue">Expiration Date Not Available(optional)</ion-label>
       <ion-checkbox formControlName="expDateNA" color="dark"></ion-checkbox>
     </ion-item>
 

@@ -13,7 +13,7 @@
 
     <ion-row align-items-center>
       <ion-col>
-        <ion-button (click)="showBasicInfoModal()" fill="solid" expand="block" [color]="!basicButtonColorToggle ? 'lightblue' : 'pink'">Basic
+        <ion-button [disabled]="!enableBasicInfo" (click)="showBasicInfoModal()" fill="solid" expand="block" [color]="!basicButtonColorToggle ? 'lightBlue' : 'pink'">Basic
           Information</ion-button>
       </ion-col>
     </ion-row>
@@ -28,7 +28,7 @@
 
     <ion-row align-items-center>
       <ion-col align-self-center>
-        <ion-button [disabled]="!enableDetailInfo" (click)="showDetailInfoModal()" fill="solid" expand="block" [color]="!detailButtonColorToggle ? 'lightblue' : 'pink'">
+        <ion-button [disabled]="!enableDetailInfo" (click)="showDetailInfoModal()" fill="solid" expand="block" [color]="!detailButtonColorToggle ? 'lightBlue' : 'pink'">
           Detail Information</ion-button>
       </ion-col>
     </ion-row>
@@ -44,7 +44,7 @@
     <ion-row align-items-center>
       <ion-col align-self-center>
         <ion-button [disabled]="!enableSellingInfo" (click)="showSellingInfoModal()" fill="solid" expand="block"
-          [color]="!sellingButtonColorToggle ? 'lightblue' : 'pink'">
+          [color]="!sellingButtonColorToggle ? 'lightBlue' : 'pink'">
           Selling Information</ion-button>
       </ion-col>
     </ion-row>
@@ -59,7 +59,7 @@
 
     <ion-row align-items-center>
       <ion-col align-self-center>
-        <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()" fill="solid" expand="block" [color]="!imageButtonColorToggle ? 'lightblue' : 'pink'">
+        <ion-button [disabled]="!enableUploadImg" (click)="showImageUploadModal()" fill="solid" expand="block" [color]="!imageButtonColorToggle ? 'lightBlue' : 'pink'">
           Upload Image</ion-button>
       </ion-col>
     </ion-row>
@@ -75,7 +75,7 @@
     <ion-row align-items-center>
       <ion-col align-self-center>
         <ion-button [disabled]="!(enableDetailInfo && enableSellingInfo && enableUploadImg && enableSubmitPost)"
-        fill="solid" expand="block" color="pink" (click)="submitPost()">Submit it!</ion-button>
+        fill="solid" expand="block" [color]="!(enableDetailInfo && enableSellingInfo && enableUploadImg && enableSubmitPost)? 'pink' : 'tertiary'" (click)="submitPost()">Submit it!</ion-button>
       </ion-col>
     </ion-row>
 
