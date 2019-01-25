@@ -11,6 +11,7 @@ import { AboutPageModule } from '../about/about.module';
 import { HomePageModule } from '../home/home.module';
 import { PostingPageModule } from './../posting/posting.module';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { ListingModule } from '../listing/listing.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
     HomePageModule,
     AboutPageModule,
     ContactPageModule,
-    PostingPageModule
+    PostingPageModule,
+    ListingModule
 
   ],
   entryComponents: [

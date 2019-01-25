@@ -19,9 +19,7 @@ export class TabsPage implements OnInit {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private googlePlus: GooglePlus,
-    private localStorage: Storage,
-    private platform: Platform) {
+    private localStorage: Storage) {
 
     this.user = this.afAuth.authState;
   }

@@ -13,7 +13,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, InfiniteScroll } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -22,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TabsPageModule } from './tabs/tabs.module';
 import { IntroductionSliderComponent } from './introduction-slider/introduction-slider.component';
-import { SubmitPostingService } from './posting/services/submitPost/submit-posting.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -41,6 +42,8 @@ import { SubmitPostingService } from './posting/services/submitPost/submit-posti
     AngularFireStorageModule,
     AngularFireDatabaseModule,
     TabsPageModule,
+    BrowserAnimationsModule,
+    ScrollingModule
   ],
   providers: [
     StatusBar,
@@ -49,8 +52,7 @@ import { SubmitPostingService } from './posting/services/submitPost/submit-posti
     Camera,
     File,
     WebView,
-    GooglePlus,
-    SubmitPostingService
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })

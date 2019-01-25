@@ -6,6 +6,7 @@ import { HomePage } from '../home/home.page';
 import { PostingPage } from '../posting/posting.page';
 
 import { MakeupFormComponent } from './../posting/itemForms/makeup-form/makeup-form.component';
+import { ListingComponent } from '../listing/listing.component';
 
 const routes: Routes = [
   {
@@ -13,9 +14,9 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'home',
-        outlet: 'home',
-        component: HomePage
+        path: 'listing',
+        outlet: 'listingOutlet',
+        component: ListingComponent
       },
       {
         path: 'posting',
@@ -26,12 +27,17 @@ const routes: Routes = [
         path: 'posting/makeupForm',
         outlet: 'postingOutlet',
         component: MakeupFormComponent
+      },
+      {
+        path: 'home',
+        outlet: 'homeOutlet',
+        component: HomePage
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/(home:home)',
+    redirectTo: '/tabs/(listingOutlet:listing)',
     pathMatch: 'full'
   },
 
