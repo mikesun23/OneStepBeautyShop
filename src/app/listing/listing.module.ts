@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FetchRawListService } from './services/fetchRawList/fetch-raw-list.service';
+import { ItemCardComponent } from './item-card/item-card.component';
 
 @NgModule({
   imports: [
@@ -14,6 +15,8 @@ import { FetchRawListService } from './services/fetchRawList/fetch-raw-list.serv
     RouterModule.forChild([{ path: '', component: ListingComponent }])
   ],
   declarations: [
+    ListingComponent,
+    ItemCardComponent,
 
   ],
   entryComponents: [

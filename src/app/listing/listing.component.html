@@ -6,28 +6,21 @@
 
 <ion-content #scrollScreen scrollEvents="true">
 
-  <ion-card *ngFor="let item of list">
-    <ion-card-header>
-      <ion-card-title>{{
-        item.value['basicInfo']['itemBrand'] + ' ' +
-        item.value['basicInfo']['itemName'] }}</ion-card-title>
-      <ion-card-subtitle>{{item.value['basicInfo']['itemNickName']}}</ion-card-subtitle>
-    </ion-card-header>
+  <div *ngFor="let item of list">
+    <app-item-card [itemData]="item"></app-item-card>
+  </div>
+  <div text-center>
+    <ion-text *ngIf="listEnd && !downloadingFlag" color="lightBlue">You checked all posts!</ion-text>
+  </div>
 
-    <ion-card-content>
-      <ion-img [src]="item.value['imageDownLoadUrl'][0]"></ion-img>
-    </ion-card-content>
-
-  </ion-card>
-
-  <ion-infinite-scroll (ionInfinite)="nextBatch($event)" loadingSpinner="bubbles" loadingText="Loading more data...">
-    <ion-infinite-scroll-content>
+  <ion-infinite-scroll threshold="10px" (ionInfinite)="nextBatch($event)">
+    <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Downloading...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
-
-
-
+  <ion-button *ngIf="listEnd" (click)="refreshButtonNextBatch(null)" fill="solid" expand="block" [color]="refreshClicked ? 'lightBlue' : 'pink'">
+    Refresh
+  </ion-button>
 
 
 </ion-content>

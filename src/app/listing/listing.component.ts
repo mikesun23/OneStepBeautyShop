@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, scan, mergeMap, throttleTime, concatMap, concat, take, merge } from 'rxjs/operators';
-import { VirtualItem, VirtualFooter, InfiniteScroll } from '@ionic/angular';
+import { VirtualItem, VirtualFooter, InfiniteScroll, ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
@@ -24,13 +24,20 @@ export class ListingComponent implements OnInit {
   currentBatchLastItemId = '';
   previousBatchLastItemId = '';
 
+  refreshClicked = false;
+  downloadingFlag = false;
 
-  constructor(private db: AngularFireDatabase, private ds: AngularFirestore) {
+
+  constructor(private db: AngularFireDatabase,
+    private ds: AngularFirestore,
+    public toastController: ToastController) {
     const batchMap = this.offset.pipe(
       throttleTime(500),
       mergeMap(n => {
         if (n !== null) {
-          n['e'].target.complete();
+          if (n['e'] !== null) {
+            n['e'].target.complete();
+          }
           return this.getBatch(n['lastSeen']);
         } else {
           return this.getBatch(n);
@@ -38,6 +45,7 @@ export class ListingComponent implements OnInit {
       }),
       scan((acc, batch) => {
         const tmp = [...acc, ...batch];
+        this.downloadingFlag = false;
         return [...acc, ...batch];
       }, []),
     );
@@ -51,13 +59,31 @@ export class ListingComponent implements OnInit {
     });
   }
 
+  async showRefreshResultToast() {
+    const toast = await this.toastController.create({
+      message: 'That\'s all! Check later!' ,
+      position: 'bottom',
+      mode: 'ios',
+      duration: 1500,
+      color: 'lightBlue'
+    });
+    toast.present();
+  }
+
   // HTMLIonInfiniteScrollElement
   nextBatch(event) {
-    if (this.listEnd) {
-      event.target.disabled = true;
-    } else {
+    this.downloadingFlag = true;
+    setTimeout(() => {
       this.offset.next({ e: event, lastSeen: this.currentBatchLastItemId });
+    }, 1000);
+  }
 
+  refreshButtonNextBatch(event) {
+    this.refreshClicked = true;
+    if (this.listEnd === true && event === null) {
+      setTimeout(() => {
+        this.offset.next({ e: event, lastSeen: this.currentBatchLastItemId });
+      }, 1000);
     }
   }
 
@@ -80,8 +106,13 @@ export class ListingComponent implements OnInit {
           this.previousBatchLastItemId = this.currentBatchLastItemId;
           this.currentBatchLastItemId = arr[arr.length - 1].payload.key;
           if ((this.previousBatchLastItemId === this.currentBatchLastItemId) && this.currentBatchLastItemId !== '') {
-            console.log('listEnd is true');
             this.listEnd = true;
+            if (this.refreshClicked === true) {
+              this.showRefreshResultToast();
+              this.refreshClicked = false;
+            }
+          } else {
+            this.listEnd = false;
           }
         }),
         map(arr => this.listEnd ? [] : arr.slice(0, 5)), // take doesn't work, since firebase emitting object one by one

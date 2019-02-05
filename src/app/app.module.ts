@@ -13,7 +13,7 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { IonicModule, IonicRouteStrategy, InfiniteScroll } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 

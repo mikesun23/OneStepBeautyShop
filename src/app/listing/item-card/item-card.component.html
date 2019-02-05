@@ -1,0 +1,36 @@
+<ion-card *ngIf="itemData!==null">
+  <ion-card-header>
+    <ion-card-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="9">
+            {{ itemData.value['basicInfo']['itemBrand'] + ' ' + itemData.value['basicInfo']['itemName'] }}
+          </ion-col>
+          <ion-col size="3">
+            <ion-text>
+              {{'$' + itemData.value['basicInfo']['priceAsSell']}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-title>
+    <ion-card-subtitle>
+      <ion-text>{{'NickName: ' +itemData.value['basicInfo']['itemNickName']}}</ion-text><br />
+      <ion-text>{{'Price As New: ' + itemData.value['basicInfo']['priceAsNew']}}</ion-text><br />
+      <ion-text>{{'Condition: ' + itemData.value['basicInfo']['itemCondition']}}</ion-text><br />
+      <ion-text>{{'Receipt: ' + itemData.value['basicInfo']['haveReceipt']}}</ion-text><br />
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- <ion-img [src]="itemData.value['imageDownLoadUrl'][0]"></ion-img> -->
+
+    <ion-slides *ngIf="imageUrlList.length>0" pager="true">
+      <ion-slide *ngFor="let image of imageUrlList; let i = index">
+        <ion-img [src]="image"></ion-img>
+      </ion-slide>
+    </ion-slides>
+
+  </ion-card-content>
+
+</ion-card>
